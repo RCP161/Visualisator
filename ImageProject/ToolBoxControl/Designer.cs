@@ -19,7 +19,7 @@ namespace ToolBoxControl
     /// <summary>
     /// Interaktionslogik für Designer.xaml
     /// </summary>
-    public partial class Designer : ContentControl
+    public class Designer : ContentControl
     {
         public static readonly int DesignerDefaultWidth = 800;
         public static readonly int DesignerDefaultHeight = 600;
@@ -29,15 +29,13 @@ namespace ToolBoxControl
 
         public Designer() : base()
         {
-            InitializeComponent();
-
             ClipToBounds = true;
             SnapsToDevicePixels = true;
             DesignerArea.Width = DesignerWidth;
             DesignerArea.Height = DesignerHeight;
 
             DataContext = this;
-            
+
             AddNewLevel();
 
             Loaded += Designer_Loaded;
@@ -45,7 +43,7 @@ namespace ToolBoxControl
         }
 
         // TODO : Properties einpflegen
-        
+
         // Colors (generell, dass es normal gestylet werden kann)
         // Raster an DesignerCanvas 
 
@@ -155,11 +153,17 @@ namespace ToolBoxControl
 
         public static readonly DependencyProperty ItemEditModeProperty = DependencyProperty.Register("ItemEditMode", typeof(ItemEditMode), typeof(Designer), new FrameworkPropertyMetadata(ItemEditMode.All));
 
+        
+
         #endregion
 
         #region Properties
 
         internal Dialogs.ZoomDialog ZoomDialog { get; set; }
+
+        internal  ScrollViewer DesignerScroller { get; private set; }
+
+        internal Canvas DesignerArea { get; private set; }
 
         #endregion
 
@@ -171,7 +175,7 @@ namespace ToolBoxControl
             desgnCanv.DesignerControl = this;
             desgnCanv.IsSelected = true;
 
-            if (DesignerArea.Children.Count < 1)
+            if(DesignerArea.Children.Count < 1)
                 desgnCanv.Background = BackgroundColor;
 
             DesignerArea.Children.Add(desgnCanv);
@@ -182,19 +186,26 @@ namespace ToolBoxControl
 
         public void ShowZoomBoxDialog()
         {
-            if (ZoomDialog != null)
+            if(ZoomDialog != null)
             {
                 ZoomDialog.Activate();
                 return;
             }
 
             Dialogs.ZoomDialog zd = new Dialogs.ZoomDialog();
-            zd.ScrollViewer = ScrollViewerControl;
+            zd.ScrollViewer = DesignerScroller;
             zd.DesignerArea = DesignerArea;
             zd.Designer = this;
             zd.Show();
 
             ZoomDialog = zd;
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            DesignerScroller = GetTemplateChild("PART_DESIGNERSCROLLER") as ScrollViewer;
+            DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as Canvas;
         }
 
         #endregion
@@ -203,13 +214,13 @@ namespace ToolBoxControl
 
         private void Designer_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (ZoomDialog != null)
+            if(ZoomDialog != null)
                 ZoomDialog.Close();
         }
 
         private void Designer_Loaded(object sender, RoutedEventArgs e)
         {
-            if (IsZoomBoxActiv)
+            if(IsZoomBoxActiv)
                 ShowZoomBoxDialog();
         }
 
@@ -223,5 +234,4 @@ namespace ToolBoxControl
         RotateOnly = 2,
         None = 3
     }
-
 }

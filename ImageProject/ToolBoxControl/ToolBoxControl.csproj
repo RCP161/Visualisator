@@ -63,9 +63,7 @@
     </Compile>
     <Compile Include="Converters\ResizeVisibleConverter.cs" />
     <Compile Include="Converters\RotateVisibleConverter.cs" />
-    <Compile Include="Designer.xaml.cs">
-      <DependentUpon>Designer.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Designer.cs" />
     <Compile Include="Dialogs\ZoomDialog.xaml.cs">
       <DependentUpon>ZoomDialog.xaml</DependentUpon>
     </Compile>
@@ -87,13 +85,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Dialogs\ZoomDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\DesignerStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\DesignerItemStyle.xaml">
       <SubType>Designer</SubType>
