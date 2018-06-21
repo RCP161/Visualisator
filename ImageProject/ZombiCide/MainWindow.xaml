@@ -1,0 +1,55 @@
+﻿<Window x:Class="ZombiCide.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZombiCide"
+        xmlns:ctrl="clr-namespace:ToolBoxControl;assembly=ToolBoxControl"
+        mc:Ignorable="d"
+        Background="LightGray"
+        Title="MainWindow" Height="690.342" Width="937.808">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Menu VerticalAlignment="Top">
+            <MenuItem Header="Datei" >
+                <MenuItem Header="Neu" />
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ctrl:ToolBoxControl Grid.Column="0" BorderThickness="1" BorderBrush="DarkGray" HorizontalAlignment="Center" >
+                <ItemsControl.Items>
+                    <Ellipse IsHitTestVisible="False" >
+                        <Shape.Fill>
+                            <RadialGradientBrush Center="0.2, 0.2" GradientOrigin="0.2, 0.2" RadiusX="0.8" RadiusY="0.8">
+                                <GradientStop Color="LightBlue" Offset="0"/>
+                                <GradientStop Color="Blue" Offset="0.9"/>
+                            </RadialGradientBrush>
+                        </Shape.Fill>
+                    </Ellipse>
+                    <Ellipse IsHitTestVisible="False" >
+                        <Shape.Fill>
+                            <RadialGradientBrush Center="0.2, 0.2" GradientOrigin="0.2, 0.2" RadiusX="0.8" RadiusY="0.8">
+                                <GradientStop Color="LemonChiffon" Offset="0"/>
+                                <GradientStop Color="LightGreen" Offset="0.9"/>
+                            </RadialGradientBrush>
+                        </Shape.Fill>
+                    </Ellipse>
+                </ItemsControl.Items>
+            </ctrl:ToolBoxControl>
+
+            <Grid Grid.Column="1">
+                <ctrl:Designer />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,195 @@
+# https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/
+# https://docs.microsoft.com/de-de/visualstudio/ide/create-portable-custom-editor-options
+
+root = true
+
+
+[*.cs]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+csharp_new_line_before_open_brace = true
+end_of_line = crlf
+insert_final_newline = false
+
+
+
+# =========================
+# Namenskonventionen 
+# =========================
+
+# dotnet_naming_rule.Name_Der_Regel.symbols								= SpitzName_Der_Regel							
+# dotnet_naming_symbols.SpitzName_Der_Regel.applicable_kinds			= property,method,field,event,delegate			[ * | class | struct | interface | enum | property | method | field | event | delegate | Parameter ]
+# dotnet_naming_symbols.SpitzName_Der_Regel.applicable_accessibilities	= public										[ * | internal | private | protected | protected_internal ]
+# dotnet_naming_symbols.SpitzName_Der_Regel.required_modifiers			= readonly										[ abstract | async | const | readonly | static ]
+
+# dotnet_naming_symbols.Name_Der_Regel.style							= StyleName_Der_Regel						
+# dotnet_naming_style.StyleName_Der_Regel.capitalization				= first_word_upper								[ pascal_case | camel_case | first_word_upper | all_upper | all_lower ]
+# dotnet_naming_style.StyleName_Der_Regel.required_prefix				= Vorsilbe
+# dotnet_naming_style.StyleName_Der_Regel.required_suffix				= Schlusssilbe
+# dotnet_naming_style.StyleName_Der_Regel.word_separator				= Separator_Character
+
+# dotnet_naming_symbols.Name_Der_Regel.severity							= suggestion									[ none| suggestion | warning| error ]
+
+
+# Regel_006 const
+dotnet_naming_rule.Regel_006.symbols							= Regel_006_SN
+dotnet_naming_symbols.Regel_006_SN.applicable_kinds				= property, field
+dotnet_naming_symbols.Regel_006_SN.applicable_accessibilities	= *
+dotnet_naming_symbols.Regel_006_SN.required_modifiers			= const
+dotnet_naming_rule.Regel_006.style								= Regel_006_SY
+dotnet_naming_style.Regel_006_SY.capitalization					= pascal_case
+dotnet_naming_rule.Regel_006.severity							= warning
+
+# Regel_005 parameter
+dotnet_naming_rule.Regel_005.symbols							= Regel_005_SN
+dotnet_naming_symbols.Regel_005_SN.applicable_kinds				= parameter
+dotnet_naming_symbols.Regel_005_SN.applicable_accessibilities	= *
+dotnet_naming_rule.Regel_005.style								= Regel_005_SY
+dotnet_naming_style.Regel_005_SY.capitalization					= camel_case
+dotnet_naming_rule.Regel_005.severity							= warning
+
+# Regel_004 private field
+dotnet_naming_rule.Regel_004.symbols							= Regel_004_SN
+dotnet_naming_symbols.Regel_004_SN.applicable_kinds				= field
+dotnet_naming_symbols.Regel_004_SN.applicable_accessibilities	= private
+dotnet_naming_rule.Regel_004.style								= Regel_004_SY
+dotnet_naming_style.Regel_004_SY.capitalization					= camel_case
+dotnet_naming_rule.Regel_004.severity							= warning
+
+# Regel_003 pascal_case für public field
+dotnet_naming_rule.Regel_003.symbols							= Regel_003_SN
+dotnet_naming_symbols.Regel_003_SN.applicable_kinds				= field
+dotnet_naming_symbols.Regel_003_SN.applicable_accessibilities	= public, internal, protected, protected_internal
+dotnet_naming_rule.Regel_003.style								= Regel_003_SY
+dotnet_naming_style.Regel_003_SY.capitalization					= pascal_case
+dotnet_naming_rule.Regel_003.severity							= warning
+
+# Regel_002 pascal_case für interface
+dotnet_naming_rule.Regel_002.symbols							= Regel_002_SN
+dotnet_naming_symbols.Regel_002_SN.applicable_kinds				= interface
+dotnet_naming_symbols.Regel_002_SN.applicable_accessibilities	= *
+dotnet_naming_rule.Regel_002.style								= Regel_002_SY
+dotnet_naming_style.Regel_002_SY.capitalization					= pascal_case
+dotnet_naming_style.Regel_002_SY.required_prefix				= I
+dotnet_naming_rule.Regel_002.severity							= warning
+
+# Regel_001 pascal_case für allgemein (class, struct, enum, method, event)
+dotnet_naming_rule.Regel_001.symbols							= Regel_001_SN
+dotnet_naming_symbols.Regel_001_SN.applicable_kinds				= class, struct, enum, method, event, property
+dotnet_naming_symbols.Regel_001_SN.applicable_accessibilities	= *
+dotnet_naming_rule.Regel_001.style								= Regel_001_SY
+dotnet_naming_style.Regel_001_SY.capitalization					= pascal_case
+dotnet_naming_rule.Regel_001.severity							= warning
+
+# Bisher nicht möglich:
+# NameSpace pascal_case
+# MemberVariable Prefix
+# Bool Prefix (Has, Is, Can)
+
+
+
+# =========================
+# Sprachkonventionen
+# =========================
+
+# options_name = false|true : none|suggestion|warning|error
+
+# none :		bei Generierung angewendet, sonst ignoriert
+# suggestion :	Vorschlag wird angezeigt
+# warning :		Warnung wird angezeigt
+# error :		CompilerFehler wird angezeigt
+
+
+#Qualifizierer „This.“ und „Me.“
+dotnet_style_qualification_for_field = false : suggestion
+dotnet_style_qualification_for_property  = false : suggestion
+dotnet_style_qualification_for_method  = false : suggestion
+dotnet_style_qualification_for_event = false : suggestion
+
+#Sprachschlüsselwörter anstelle von Framework-Typnamen für Typverweise
+dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
+dotnet_style_predefined_type_for_member_access = false:suggestion
+
+#Einstellungen von Modifizierern
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
+csharp_preferred_modifier_order = public,internal,private,protected,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async
+
+#Einstellungen auf Ausdrucksebene
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_explicit_tuple_names = true:suggestion
+dotnet_style_prefer_inferred_tuple_names = true:suggestion
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
+
+#Einstellungen für die NULL-Überprüfung
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+
+#Implizite und explizite Typen
+csharp_style_var_for_built_in_types = true:none
+csharp_style_var_when_type_is_apparent = true:none
+csharp_style_var_elsewhere = true:none
+
+#Ausdruckskörpermember
+csharp_style_expression_bodied_methods = false:suggestion
+csharp_style_expression_bodied_constructors = false:warning
+csharp_style_expression_bodied_operators = false:warning
+csharp_style_expression_bodied_properties = false:warning
+csharp_style_expression_bodied_indexers = false:warning
+csharp_style_expression_bodied_accessors = false:warning
+
+#Mustervergleich
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+
+#Inline-Variablendeklarationen
+csharp_style_inlined_variable_declaration = true:suggestion
+
+#Einstellungen auf Ausdrucksebene
+csharp_prefer_simple_default_expression = true:suggestion
+csharp_style_deconstructed_variable_declaration = false:suggestion
+csharp_style_pattern_local_over_anonymous_function = true:suggestion
+
+#Einstellungen für die NULL-Überprüfung
+csharp_style_throw_expression = true:suggestion
+csharp_style_conditional_delegate_call = true:suggestion
+
+#Codeblockeinstellungen
+csharp_prefer_braces = false:suggestion
+
+
+
+# =========================
+# Formatierungskonventionen
+# =========================
+
+# rule_name = false|true
+
+
+#Using-Direktiven organisieren
+dotnet_sort_system_directives_first = true
+
+#Zeilenvorschuboptionen
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+
+#Einzugsoptionen
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels= flush_left
+
+#Leerzeichenoptionen
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = false
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+
+#Umbruchoptionen
+csharp_preserve_single_line_statements = false
+csharp_preserve_single_line_blocks = true

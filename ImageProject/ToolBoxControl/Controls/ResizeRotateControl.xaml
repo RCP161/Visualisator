@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="ToolBoxControl.Controls.ResizeRotateControl"
+                x:ClassModifier="internal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ToolBoxControl.Controls"
+             xmlns:conv="clr-namespace:ToolBoxControl.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+    <conv:ResizeVisibleConverter x:Key="ResizeConv" />
+    <conv:RotateVisibleConverter x:Key="RotateConv" />
+
+    <Style TargetType="{x:Type Shape}" x:Key="ThumbCorner">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="Stroke" Value="#FFC8C8C8" />
+        <Setter Property="StrokeThickness" Value=".5" />
+        <Setter Property="Width" Value="7" />
+        <Setter Property="Height" Value="7" />
+        <Setter Property="Margin" Value="-2" />
+        <Setter Property="Fill">
+            <Setter.Value>
+                <RadialGradientBrush Center="0.2, 0.2" GradientOrigin="0.2, 0.2" RadiusX="0.8" RadiusY="0.8">
+                    <GradientStop Color="White" Offset="0.0" />
+                    <GradientStop Color="Gray" Offset="0.8" />
+                </RadialGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid Opacity="0" Margin="-3">
+            <local:RotateThumb Width="7"
+                               Height="7"
+                               Margin="0,-20,0,0"
+                               Cursor="Hand"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Center"
+                               Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+            <local:ResizeThumb Height="3"
+                               Cursor="SizeNS"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Stretch"
+                               Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+            <local:ResizeThumb Width="3"
+                               Cursor="SizeWE"
+                               VerticalAlignment="Stretch"
+                               HorizontalAlignment="Left"
+                               Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+            <local:ResizeThumb Width="3"
+                               Cursor="SizeWE"
+                               VerticalAlignment="Stretch"
+                               HorizontalAlignment="Right"
+                               Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+            <local:ResizeThumb Height="3"
+                               Cursor="SizeNS"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Stretch"
+                               Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+            <local:ResizeThumb Width="7"
+                               Height="7"
+                               Margin="-2"
+                               Cursor="SizeNWSE"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Left"
+                               Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+            <local:ResizeThumb Width="7"
+                               Height="7"
+                               Margin="-2"
+                               Cursor="SizeNESW"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Right"
+                               Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+            <local:ResizeThumb Width="7"
+                               Height="7"
+                               Margin="-2"
+                               Cursor="SizeNESW"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Left"
+                               Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+            <local:ResizeThumb Width="7"
+                               Height="7"
+                               Margin="-2"
+                               Cursor="SizeNWSE"
+                               VerticalAlignment="Bottom"
+                               HorizontalAlignment="Right"
+                               Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+        </Grid>
+        <Grid IsHitTestVisible="False" Opacity="1" Margin="-3">
+            <Rectangle SnapsToDevicePixels="True"
+                       StrokeThickness="1"
+                       Margin="1"
+                       Stroke="Gray"/>
+            <Line StrokeThickness="1" X1="0" Y1="0" X2="0" Y2="20"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Top"
+                  Margin="0,-19,0,0"
+                  Stroke="Gray"
+                  Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource RotateConv}}"/>
+            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-1,-20,0,0" Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource RotateConv}}"/>
+            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="{Binding Path=DesignerCanvas.DesignerControl.ItemEditMode,  Converter={StaticResource ResizeConv}}"/>
+        </Grid>
+    </Grid>
+</UserControl>
