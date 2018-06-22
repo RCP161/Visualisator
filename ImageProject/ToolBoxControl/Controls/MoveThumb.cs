@@ -17,6 +17,11 @@ namespace ToolBoxControl.Controls
         private double offsetX;
         private double offsetY;
 
+        static MoveThumb()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(MoveThumb), new FrameworkPropertyMetadata(typeof(MoveThumb)));
+        }
+
         public MoveThumb()
         {
             DragStarted += new DragStartedEventHandler(this.MoveThumb_DragStarted);
