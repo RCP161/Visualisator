@@ -1,0 +1,12 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:ToolBoxControl">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ToolBoxControl;component/Styles/DesignerItemStyle.xaml" />
+        <ResourceDictionary Source="/ToolBoxControl;component/Styles/DesignerStyle.xaml" />
+        <ResourceDictionary Source="/ToolBoxControl;component/Styles/ToolBoxControlStyle.xaml" />
+        <ResourceDictionary Source="/ToolBoxControl;component/Styles/ToolBoxItemStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

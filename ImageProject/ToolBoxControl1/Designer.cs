@@ -27,11 +27,6 @@ namespace ToolBoxControl
         public static readonly int ItemDefaultHeight = 65;
         public static readonly int ItemDockRange = 8;
 
-        static Designer()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(Designer), new FrameworkPropertyMetadata(typeof(Designer)));
-        }
-
         public Designer() : base()
         {
             ClipToBounds = true;
@@ -204,6 +199,7 @@ namespace ToolBoxControl
             base.OnApplyTemplate();
             DesignerScroller = GetTemplateChild("PART_DESIGNERSCROLLER") as ScrollViewer;
             DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as Canvas;
+
 
             AddNewLevel();
 

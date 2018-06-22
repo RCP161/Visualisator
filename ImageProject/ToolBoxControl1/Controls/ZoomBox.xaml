@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="ToolBoxControl.Controls.ZoomBox"
+                x:ClassModifier="internal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ToolBoxControl.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Background="#EEE">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+            </Grid.ColumnDefinitions>
+            <Slider x:Name="ZoomSlider"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    Margin="0"
+                    Ticks="25,50,75,100,125,150,200,300,400,500"
+                    Minimum="25"
+                    Maximum="500"
+                    Value="100"
+                    IsSnapToTickEnabled="True"
+                    IsMoveToPointEnabled="False" />
+
+            <TextBlock Text="{Binding ElementName=ZoomSlider, Path=Value}"
+                       Grid.Column="1"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Margin="0,0,14,0" />
+            <TextBlock Text="%"
+                       Grid.Column="1"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       Margin="1,0,2,0" />
+        </Grid>
+
+
+        <Border Grid.Row="1"
+                CornerRadius="1"
+                BorderThickness="1"
+                BorderBrush="DimGray">
+            <Grid>
+                <Canvas Margin="5" x:Name="ZoomCanvas">
+                    <Canvas.Background>
+                        <VisualBrush Stretch="Uniform" Visual="{Binding Path=ScrollViewer.Content}" />
+                    </Canvas.Background>
+                    <Thumb x:Name="ZoomThumb" Cursor="SizeAll">
+                        <Thumb.Style>
+                            <Style TargetType="Thumb">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Thumb">
+                                            <Rectangle StrokeThickness="1"
+                                                       Stroke="Black"
+                                                       Fill="Transparent" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Thumb.Style>
+                    </Thumb>
+                </Canvas>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
