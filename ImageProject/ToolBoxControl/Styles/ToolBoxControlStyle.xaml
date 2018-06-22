@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:asby="clr-namespace:ToolBoxControl">
 
-    <Style TargetType="{x:Type asby:ToolBoxControl}" x:Key="ToolBoxControlStyle">
+    <Style TargetType="{x:Type asby:ToolBoxControl}" >
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">

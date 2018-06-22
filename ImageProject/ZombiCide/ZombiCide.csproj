@@ -98,8 +98,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ToolboxControl\ToolBoxControl.csproj">
-      <Project>{0c67ad1f-2adc-406d-a27b-48260db13d24}</Project>
+    <ProjectReference Include="..\ToolBoxControl\ToolBoxControl.csproj">
+      <Project>{feb493bc-230b-41ad-a31b-5d69a190e48f}</Project>
       <Name>ToolBoxControl</Name>
     </ProjectReference>
   </ItemGroup>

@@ -17,6 +17,11 @@ namespace ToolBoxControl.Controls
         private double offsetX;
         private double offsetY;
 
+        static MoveThumb()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(MoveThumb), new FrameworkPropertyMetadata(typeof(MoveThumb)));
+        }
+
         public MoveThumb()
         {
             DragStarted += new DragStartedEventHandler(this.MoveThumb_DragStarted);
@@ -37,7 +42,7 @@ namespace ToolBoxControl.Controls
 
         private void MoveThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            if (this.designerItem != null && this.designerItem.IsSelected && designerItem.DesignerCanvas != null)
+            if (designerItem.DesignerCanvas != null && this.designerItem != null && this.designerItem.IsSelected)
             {
                 // Aktuelle Position
                 double x = Mouse.GetPosition(designerItem.DesignerCanvas).X - offsetX;

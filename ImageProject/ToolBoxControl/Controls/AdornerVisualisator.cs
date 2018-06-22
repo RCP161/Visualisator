@@ -27,7 +27,6 @@ namespace ToolBoxControl.Controls
 
         public static readonly DependencyProperty ShowItemUIProperty = DependencyProperty.Register("ShowItemUI", typeof(bool), typeof(AdornerVisualisator), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(ShowItemUIProperty_Changed)));
 
-        
         public static void SetShowItemUI(UIElement element, bool value)
         {
             element.SetValue(ShowItemUIProperty, value);

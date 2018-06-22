@@ -6,39 +6,20 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ToolBoxControl.Controls
 {
-    /// <summary>
-    /// Interaktionslogik für ZoomBox.xaml
-    /// </summary>
-    internal partial class ZoomBox : UserControl
+    internal class ZoomBox : Control
     {
+        private Thumb zoomThumb;
+        private Canvas zoomCanvas;
+        private Slider zoomSlider;
         private ScaleTransform scaleTransform;
 
-        public ZoomBox() : base()
+        static ZoomBox()
         {
-            InitializeComponent();
-
-            SnapsToDevicePixels = true;
-            Loaded += ZoomBox_Loaded;
-        }
-
-        private void ZoomBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            DesignerArea.LayoutUpdated += new EventHandler(this.DesignerCanvas_LayoutUpdated);
-            ZoomThumb.DragDelta += new DragDeltaEventHandler(this.Thumb_DragDelta);
-            ZoomSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.ZoomSlider_ValueChanged);
-
-            this.scaleTransform = new ScaleTransform();
-            this.DesignerArea.LayoutTransform = this.scaleTransform;
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ZoomBox), new FrameworkPropertyMetadata(typeof(ZoomBox)));
         }
 
         public ScrollViewer ScrollViewer
@@ -49,13 +30,13 @@ namespace ToolBoxControl.Controls
 
         public static readonly DependencyProperty ScrollViewerProperty = DependencyProperty.Register("ScrollViewer", typeof(ScrollViewer), typeof(ZoomBox), new FrameworkPropertyMetadata(null));
 
-        public Canvas DesignerArea
+        public DesignerCanvas DesignerCanvas
         {
-            get { return (Canvas)GetValue(DesignerAreaProperty); }
-            set { SetValue(DesignerAreaProperty, value); }
+            get { return (DesignerCanvas)GetValue(DesignerCanvasProperty); }
+            set { SetValue(DesignerCanvasProperty, value); }
         }
 
-        public static readonly DependencyProperty DesignerAreaProperty = DependencyProperty.Register("DesignerArea", typeof(Canvas), typeof(ZoomBox), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty DesignerCanvasProperty = DependencyProperty.Register("DesignerCanvas", typeof(DesignerCanvas), typeof(ZoomBox), new FrameworkPropertyMetadata(null));
 
         public Designer Designer
         {
@@ -64,6 +45,35 @@ namespace ToolBoxControl.Controls
         }
 
         public static readonly DependencyProperty DesignerProperty = DependencyProperty.Register("Designer", typeof(Designer), typeof(ZoomBox), new FrameworkPropertyMetadata(null));
+
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            // TODO : Anders machen? Binding und DependencyProperties? Doch Style auflösen?
+
+            this.zoomThumb = Template.FindName("PART_ZoomThumb", this) as Thumb;
+            if (this.zoomThumb == null)
+                throw new Exception("PART_ZoomThumb template is missing!");
+
+            this.zoomCanvas = Template.FindName("PART_ZoomCanvas", this) as Canvas;
+            if (this.zoomCanvas == null)
+                throw new Exception("PART_ZoomCanvas template is missing!");
+
+            this.zoomSlider = Template.FindName("PART_ZoomSlider", this) as Slider;
+            if (this.zoomSlider == null)
+                throw new Exception("PART_ZoomSlider template is missing!");
+
+            this.DesignerCanvas.LayoutUpdated += new EventHandler(this.DesignerCanvas_LayoutUpdated);
+
+            this.zoomThumb.DragDelta += new DragDeltaEventHandler(this.Thumb_DragDelta);
+
+            this.zoomSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.ZoomSlider_ValueChanged);
+
+            this.scaleTransform = new ScaleTransform();
+            this.DesignerCanvas.LayoutTransform = this.scaleTransform;
+        }
 
         private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -92,43 +102,43 @@ namespace ToolBoxControl.Controls
             this.ScrollViewer.ScrollToVerticalOffset(this.ScrollViewer.VerticalOffset + e.VerticalChange / scale);
         }
 
-
+        
         private void DesignerCanvas_LayoutUpdated(object sender, EventArgs e)
         {
             double scale, xOffset, yOffset, viewWidth, viewHeight;
             this.InvalidateScale(out scale, out xOffset, out yOffset);
 
             if (ScrollViewer.ComputedHorizontalScrollBarVisibility != Visibility.Visible)
-                viewWidth = DesignerArea.ActualWidth;
+                viewWidth = DesignerCanvas.ActualWidth;
             else
                 viewWidth = this.ScrollViewer.ViewportWidth;
 
             if (ScrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible)
-                viewHeight = DesignerArea.ActualHeight;
+                viewHeight = DesignerCanvas.ActualHeight;
             else
                 viewHeight = this.ScrollViewer.ViewportHeight;
 
-            ZoomThumb.Width = viewWidth * scale;
-            ZoomThumb.Height = viewHeight * scale;
+            this.zoomThumb.Width = viewWidth * scale;
+            this.zoomThumb.Height = viewHeight * scale;
 
             // TODO : Wenn zoomSlider.Value <= 100 muss auch der inhalt der Zoombox schrumpfen. Zudem Beachten: Nach vergößern/verkleinern der ZoomBox muss der Rahmen auch noch stimmen
 
             // System.Diagnostics.Debug.WriteLine("Zoomthumb: " + zoomThumb.Width.ToString("000000.000") + " / " + zoomThumb.Height.ToString("000000.000"));
 
-            Canvas.SetLeft(ZoomThumb, xOffset + this.ScrollViewer.HorizontalOffset * scale);
-            Canvas.SetTop(ZoomThumb, yOffset + this.ScrollViewer.VerticalOffset * scale);
+            Canvas.SetLeft(this.zoomThumb, xOffset + this.ScrollViewer.HorizontalOffset * scale);
+            Canvas.SetTop(this.zoomThumb, yOffset + this.ScrollViewer.VerticalOffset * scale);
         }
 
         private void InvalidateScale(out double scale, out double xOffset, out double yOffset)
         {
             // designer canvas size
-            double w = this.DesignerArea.ActualWidth * this.scaleTransform.ScaleX;
-            double h = this.DesignerArea.ActualHeight * this.scaleTransform.ScaleY;
+            double w = this.DesignerCanvas.ActualWidth * this.scaleTransform.ScaleX;
+            double h = this.DesignerCanvas.ActualHeight * this.scaleTransform.ScaleY;
 
             // zoom canvas size
-            double x = ZoomCanvas.ActualWidth;
-            double y = ZoomCanvas.ActualHeight;
-
+            double x = this.zoomCanvas.ActualWidth;
+            double y = this.zoomCanvas.ActualHeight;
+            
             double scaleX = x / w;
             double scaleY = y / h;
 

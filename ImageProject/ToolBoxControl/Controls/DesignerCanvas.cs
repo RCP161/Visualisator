@@ -16,17 +16,18 @@ using ToolBoxControl.Controls;
 namespace ToolBoxControl.Controls
 {
     internal class DesignerCanvas : Canvas
-    { 
+    {
         private Point? dragStartPoint = null;
+
+        static DesignerCanvas()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignerCanvas), new FrameworkPropertyMetadata(typeof(DesignerCanvas)));
+        }
 
         public DesignerCanvas() : base()
         {
-            ClipToBounds = true;
-            SnapsToDevicePixels = true;
-            AllowDrop = true;
+            Loaded += DesignerCanvas_Loaded;
         }
-
-        public bool IsSelected { get; set; }
 
         public Designer DesignerControl
         {
@@ -36,7 +37,15 @@ namespace ToolBoxControl.Controls
 
         public static readonly DependencyProperty DesignerControlProperty = DependencyProperty.Register("DesignerControl", typeof(Designer), typeof(DesignerCanvas), new FrameworkPropertyMetadata(null)); 
 
-        
+        public ScrollViewer ScrollViewerControl
+        {
+            get { return (ScrollViewer)GetValue(ScrollViewerControlProperty); }
+            set { SetValue(ScrollViewerControlProperty, value); }
+        }
+
+        public static readonly DependencyProperty ScrollViewerControlProperty = DependencyProperty.Register("ScrollViewerControl", typeof(ScrollViewer), typeof(DesignerCanvas), new FrameworkPropertyMetadata(null));
+
+
         public IEnumerable<DesignerItem> SelectedItems
         {
             get
@@ -47,6 +56,16 @@ namespace ToolBoxControl.Controls
 
                 return selectedItems;
             }
+        }
+
+        // TODO : Sollte eigentlich an den Designer, aber ich bekomme den umbau ohne Styles nicht hin
+        public void ShowZoomBoxDialog()
+        {
+            Dialogs.ZoomDialog zd = new Dialogs.ZoomDialog();
+            zd.ScrollViewer = ScrollViewerControl;
+            zd.DesignerCanvas = this;
+            zd.Designer = DesignerControl;
+            zd.Show();
         }
 
         public void DeselectAll()
@@ -99,7 +118,7 @@ namespace ToolBoxControl.Controls
                 if (content != null)
                 {
                     newItem = new DesignerItem();
-                    newItem.ControlContent = content;
+                    newItem.Content = content;
                     newItem.DesignerCanvas = this;
 
                     var pos = e.GetPosition(this);
@@ -131,15 +150,15 @@ namespace ToolBoxControl.Controls
 
         protected override Size MeasureOverride(Size constraint)
         {
+            Size size = new Size();
+
             if (!DesignerControl.DesignerCanResize)
             {
                 foreach (UIElement element in Children)
                     element.Measure(constraint);
 
-                return new Size(DesignerControl.DesignerArea.Width, DesignerControl.DesignerArea.Height);
+                return size;
             }
-
-            Size size = new Size();
 
             foreach (UIElement element in Children)
             {
@@ -163,6 +182,11 @@ namespace ToolBoxControl.Controls
             size.Height += 10;
 
             return size;
+        }
+
+        private void DesignerCanvas_Loaded(object sender, RoutedEventArgs e)
+        {
+            ShowZoomBoxDialog();
         }
     }
 }

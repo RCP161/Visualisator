@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Markup;
+using System.Xml;
 using ToolBoxControl.Controls;
 
 namespace ToolBoxControl
 {
-    /// <summary>
-    /// Interaktionslogik für Designer.xaml
-    /// </summary>
-    public partial class Designer : ContentControl
+    public class Designer : ContentControl
     {
         public static readonly int DesignerDefaultWidth = 800;
         public static readonly int DesignerDefaultHeight = 600;
@@ -27,38 +22,33 @@ namespace ToolBoxControl
         public static readonly int ItemDefaultHeight = 65;
         public static readonly int ItemDockRange = 8;
 
+        static Designer()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(Designer), new FrameworkPropertyMetadata(typeof(Designer)));
+        }
+
         public Designer() : base()
         {
-            InitializeComponent();
-
-            ClipToBounds = true;
-            SnapsToDevicePixels = true;
-            DesignerArea.Width = DesignerWidth;
-            DesignerArea.Height = DesignerHeight;
-
             DataContext = this;
-            
-            AddNewLevel();
-
-            Loaded += Designer_Loaded;
-            Unloaded += Designer_Unloaded;
         }
 
         // TODO : Properties einpflegen
-        
+
+        // DesignerCollection für ebenen
         // Colors (generell, dass es normal gestylet werden kann)
         // Raster an DesignerCanvas 
 
         // Funktion zum aufrufen der ZoomBox 
-        // Dialog zum hinzufügen/entfernen/verschieben von Ebenen 
+        // Funktion zum hinzufügen/entfernen/verschieben von Ebenen 
         // Beim schließen alle Fenster schließen
 
         // Prio Z
         // Dockverhalten ausbauen mit Docken auch an die anderen Punkte, oder auch beim Resize eines Items
 
 
+        // Fehler: 
+        // System.Windows.Data Error: 2 : Cannot find governing FrameworkElement or FrameworkContentElement for target element. BindingExpression:Path=ScrollViewer.Content; DataItem=null; target element is 'VisualBrush' (HashCode=30123835); target property is 'Visual' (type 'Visual')
 
-        #region WPF Properties
 
         /// <summary>
         /// Gibt an, ob die ZoomBox gestartet werden soll
@@ -69,9 +59,9 @@ namespace ToolBoxControl
             set { SetValue(IsZoomBoxActivProperty, value); }
         }
 
-        public static readonly DependencyProperty IsZoomBoxActivProperty = DependencyProperty.Register("IsZoomBoxActiv", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(true)); // TODO : Änderun zu flase
+        public static readonly DependencyProperty IsZoomBoxActivProperty = DependencyProperty.Register("IsZoomBoxActiv", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(false));
 
-
+        
         /// <summary>
         /// Gibt an, ob sich der Designer selber vergrößern darf
         /// </summary>
@@ -130,8 +120,8 @@ namespace ToolBoxControl
         }
 
         public static readonly DependencyProperty ItemCanLeaveDesignerProperty = DependencyProperty.Register("ItemCanLeaveDesigner", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(true));
-
-
+        
+        
         /// <summary>
         /// Gibt an, ob die Items ein Dockverhalten aufweißen
         /// </summary>
@@ -155,65 +145,6 @@ namespace ToolBoxControl
 
         public static readonly DependencyProperty ItemEditModeProperty = DependencyProperty.Register("ItemEditMode", typeof(ItemEditMode), typeof(Designer), new FrameworkPropertyMetadata(ItemEditMode.All));
 
-        #endregion
-
-        #region Properties
-
-        internal Dialogs.ZoomDialog ZoomDialog { get; set; }
-
-        #endregion
-
-        #region Methods
-
-        public void AddNewLevel()
-        {
-            DesignerCanvas desgnCanv = new DesignerCanvas();
-            desgnCanv.DesignerControl = this;
-            desgnCanv.IsSelected = true;
-
-            if (DesignerArea.Children.Count < 1)
-                desgnCanv.Background = BackgroundColor;
-
-            DesignerArea.Children.Add(desgnCanv);
-
-            desgnCanv.HorizontalAlignment = HorizontalAlignment.Stretch;
-            desgnCanv.VerticalAlignment = VerticalAlignment.Stretch;
-        }
-
-        public void ShowZoomBoxDialog()
-        {
-            if (ZoomDialog != null)
-            {
-                ZoomDialog.Activate();
-                return;
-            }
-
-            Dialogs.ZoomDialog zd = new Dialogs.ZoomDialog();
-            zd.ScrollViewer = ScrollViewerControl;
-            zd.DesignerArea = DesignerArea;
-            zd.Designer = this;
-            zd.Show();
-
-            ZoomDialog = zd;
-        }
-
-        #endregion
-
-        #region Events
-
-        private void Designer_Unloaded(object sender, RoutedEventArgs e)
-        {
-            if (ZoomDialog != null)
-                ZoomDialog.Close();
-        }
-
-        private void Designer_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (IsZoomBoxActiv)
-                ShowZoomBoxDialog();
-        }
-
-        #endregion
     }
 
     public enum ItemEditMode
@@ -223,5 +154,4 @@ namespace ToolBoxControl
         RotateOnly = 2,
         None = 3
     }
-
 }

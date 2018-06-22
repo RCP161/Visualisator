@@ -2,15 +2,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ctrl="clr-namespace:ToolBoxControl.Controls">
 
-
-   
-
-    <Style x:Key="DesignerItemStyle" TargetType="{x:Type ctrl:DesignerItem}">
-        
+    <Style TargetType="{x:Type ctrl:DesignerItem}">
+        <Setter Property="MinHeight" Value="50"/>
+        <Setter Property="MinWidth" Value="50"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ctrl:DesignerItem}">
-                    
+                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                        <ctrl:MoveThumb Cursor="SizeAll" />
+                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}" Margin="{TemplateBinding Padding}"/>
+                        <ctrl:AdornerVisualisator x:Name="ItemUI"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="ItemUI" Property="ShowItemUI" Value="True"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

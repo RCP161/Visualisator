@@ -25,8 +25,6 @@ namespace ToolBoxControl.Dialogs
         {
             DataContext = this;
             InitializeComponent();
-
-            Closed += ZoomDialog_Closed;
         }
 
         public ScrollViewer ScrollViewer
@@ -37,13 +35,13 @@ namespace ToolBoxControl.Dialogs
 
         public static readonly DependencyProperty ScrollViewerProperty = DependencyProperty.Register("ScrollViewer", typeof(ScrollViewer), typeof(ZoomDialog), new FrameworkPropertyMetadata(null));
 
-        public Canvas DesignerArea
+        public DesignerCanvas DesignerCanvas
         {
-            get { return (Canvas)GetValue(DesignerAreaProperty); }
-            set { SetValue(DesignerAreaProperty, value); }
+            get { return (DesignerCanvas)GetValue(DesignerCanvasProperty); }
+            set { SetValue(DesignerCanvasProperty, value); }
         }
 
-        public static readonly DependencyProperty DesignerAreaProperty = DependencyProperty.Register("DesignerArea", typeof(Canvas), typeof(ZoomDialog), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty DesignerCanvasProperty = DependencyProperty.Register("DesignerCanvas", typeof(DesignerCanvas), typeof(ZoomDialog), new FrameworkPropertyMetadata(null));
 
         public Designer Designer
         {
@@ -53,9 +51,5 @@ namespace ToolBoxControl.Dialogs
 
         public static readonly DependencyProperty DesignerProperty = DependencyProperty.Register("Designer", typeof(Designer), typeof(ZoomDialog), new FrameworkPropertyMetadata(null));
 
-        private void ZoomDialog_Closed(object sender, EventArgs e)
-        {
-            Designer.ZoomDialog = null;
-        }
     }
 }

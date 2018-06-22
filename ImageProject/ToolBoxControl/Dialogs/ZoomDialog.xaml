@@ -8,5 +8,5 @@
              xmlns:ctrl="clr-namespace:ToolBoxControl.Controls"
              mc:Ignorable="d" 
              Height="250" Width="250">
-    <ctrl:ZoomBox ScrollViewer="{Binding Path=ScrollViewer}" DesignerArea="{Binding Path=DesignerArea}" Designer="{Binding Path=Designer}"/>
+    <ctrl:ZoomBox ScrollViewer="{Binding Path=ScrollViewer}" DesignerCanvas="{Binding Path=DesignerCanvas}" Designer="{Binding Path=Designer}"/>
 </Window>
