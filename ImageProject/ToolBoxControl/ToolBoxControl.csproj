@@ -47,20 +47,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\DesignerItem.cs" />
+    <Compile Include="Controls\ResizeRotateControl.cs" />
+    <Compile Include="Controls\ZoomBox.cs" />
     <Compile Include="ToolBoxControl.cs" />
-    <Page Include="Controls\DesignerItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\ResizeRotateControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\ZoomBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\ZoomDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\DesignerCanvasStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -72,11 +67,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\ResizeRotateControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ToolBoxControlStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\ToolBoxItemStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ZoomBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -86,21 +89,12 @@
     </Page>
     <Compile Include="Controls\AdornerVisualisator.cs" />
     <Compile Include="Controls\DesignerCanvas.cs" />
-    <Compile Include="Controls\DesignerItem.xaml.cs">
-      <DependentUpon>DesignerItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\MoveThumb.cs" />
     <Compile Include="Controls\ResizeRotateAdorner.cs" />
-    <Compile Include="Controls\ResizeRotateControl.xaml.cs">
-      <DependentUpon>ResizeRotateControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ResizeThumb.cs" />
     <Compile Include="Controls\RotateThumb.cs" />
     <Compile Include="Controls\RubberbandAdorner.cs" />
     <Compile Include="Controls\ToolBoxItem.cs" />
-    <Compile Include="Controls\ZoomBox.xaml.cs">
-      <DependentUpon>ZoomBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters\ResizeVisibleConverter.cs" />
     <Compile Include="Converters\RotateVisibleConverter.cs" />
   </ItemGroup>

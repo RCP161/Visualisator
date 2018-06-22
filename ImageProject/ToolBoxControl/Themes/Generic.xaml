@@ -4,9 +4,12 @@
     xmlns:local="clr-namespace:ToolBoxControl">
 
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ToolBoxControl;component/Styles/DesignerCanvasStyle.xaml" />
         <ResourceDictionary Source="/ToolBoxControl;component/Styles/DesignerItemStyle.xaml" />
         <ResourceDictionary Source="/ToolBoxControl;component/Styles/DesignerStyle.xaml" />
+        <ResourceDictionary Source="/ToolBoxControl;component/Styles/ResizeRotateControlStyle.xaml" />
         <ResourceDictionary Source="/ToolBoxControl;component/Styles/ToolBoxControlStyle.xaml" />
         <ResourceDictionary Source="/ToolBoxControl;component/Styles/ToolBoxItemStyle.xaml" />
+        <ResourceDictionary Source="/ToolBoxControl;component/Styles/ZoomBoxStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

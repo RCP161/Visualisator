@@ -37,7 +37,7 @@ namespace ToolBoxControl.Controls
 
         private void MoveThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            if (this.designerItem != null && this.designerItem.IsSelected && designerItem.DesignerCanvas != null)
+            if (designerItem.DesignerCanvas != null && this.designerItem != null && this.designerItem.IsSelected)
             {
                 // Aktuelle Position
                 double x = Mouse.GetPosition(designerItem.DesignerCanvas).X - offsetX;

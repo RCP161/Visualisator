@@ -5,42 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ToolBoxControl.Controls
 {
-    /// <summary>
-    /// Interaktionslogik für DesignerItem.xaml
-    /// </summary>
-    internal partial class DesignerItem : ContentControl
+    internal class DesignerItem : ContentControl
     {
-        public DesignerItem()
+        private static Style _designerItemStyle;
+        private Style DesignerItemStyle
         {
-            DataContext = this;
-            
-            InitializeComponent();
-
-            MinWidth = 50;
-            MinHeight = 50;
-            SnapsToDevicePixels = true;
-            RenderTransformOrigin = new Point(0.5,0.5);
+            get
+            {
+                if (_designerItemStyle == null)
+                {
+                    this.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/ToolBoxControl;component/Styles/DesignerItemStyle.xaml", UriKind.RelativeOrAbsolute) });
+                    _designerItemStyle = FindResource("DesignerItemStyle") as Style;
+                }
+                return _designerItemStyle;
+            }
         }
 
-        public object ControlContent
+        public DesignerItem() : base()
         {
-            get { return (bool)GetValue(ControlContentProperty); }
-            set { SetValue(ControlContentProperty, value); }
+            Style = DesignerItemStyle;
         }
-
-        public static readonly DependencyProperty ControlContentProperty = DependencyProperty.Register("ControlContent", typeof(object), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
-
-
+        
         public bool IsSelected
         {
             get { return (bool)GetValue(IsSelectedProperty); }

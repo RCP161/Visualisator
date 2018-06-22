@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ctrl="clr-namespace:ToolBoxControl.Controls"
+             xmlns:asby="clr-namespace:ToolBoxControl">
+
+    <Style x:Key="DesignerCanvasStyle" TargetType="{x:Type ctrl:DesignerCanvas}">
+        <Setter Property="ClipToBounds" Value="true"/>
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="AllowDrop" Value="true"/>
+    </Style>
+</ResourceDictionary>
