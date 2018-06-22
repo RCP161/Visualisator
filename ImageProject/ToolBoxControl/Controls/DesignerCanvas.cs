@@ -135,8 +135,8 @@ namespace ToolBoxControl.Controls
             {
                 foreach (UIElement element in Children)
                     element.Measure(constraint);
-
-                return new Size(DesignerControl.DesignerArea.Width, DesignerControl.DesignerArea.Height);
+                
+                return new Size(DesignerControl.DesignerWidth, DesignerControl.DesignerHeight);
             }
 
             Size size = new Size();

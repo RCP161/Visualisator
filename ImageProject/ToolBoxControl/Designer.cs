@@ -80,6 +80,7 @@ namespace ToolBoxControl
         public static readonly DependencyProperty DesignerCanResizeProperty = DependencyProperty.Register("DesignerCanResize", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(false));
 
 
+        // Ich kann Höhe und Breite leider nicht als TemplateBinding Binden. Er hat einfach den Wert nie übernommen ...
         /// <summary>
         /// Breite des Designers, wenn IsResizable == false ist
         /// </summary>
