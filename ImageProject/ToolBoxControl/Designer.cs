@@ -162,7 +162,7 @@ namespace ToolBoxControl
 
         internal  ScrollViewer DesignerScroller { get; private set; }
 
-        internal Canvas DesignerArea { get; private set; }
+        internal DesignerCanvas DesignerArea { get; private set; }
 
         #endregion
 
@@ -204,7 +204,7 @@ namespace ToolBoxControl
         {
             base.OnApplyTemplate();
             DesignerScroller = GetTemplateChild("PART_DESIGNERSCROLLER") as ScrollViewer;
-            DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as Canvas;
+            DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as DesignerCanvas;
 
             AddNewLevel();
 
