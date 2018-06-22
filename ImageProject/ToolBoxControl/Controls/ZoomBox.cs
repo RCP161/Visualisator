@@ -17,23 +17,9 @@ namespace ToolBoxControl.Controls
         private Slider zoomSlider;
         private ScaleTransform scaleTransform;
 
-        private static Style _zoomBoxStyle;
-        private Style ZoomBoxStyle
+        static ZoomBox()
         {
-            get
-            {
-                if (_zoomBoxStyle == null)
-                {
-                    Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/ToolBoxControl;component/Styles/ZoomBoxStyle.xaml", UriKind.RelativeOrAbsolute) });
-                    _zoomBoxStyle = FindResource("ZoomBoxStyle") as Style;
-                }
-                return _zoomBoxStyle;
-            }
-        }
-
-        public ZoomBox() : base()
-        {
-            Style = ZoomBoxStyle;
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ZoomBox), new FrameworkPropertyMetadata(typeof(ZoomBox)));
         }
 
         public ScrollViewer ScrollViewer

@@ -10,23 +10,9 @@ namespace ToolBoxControl
 {
     public class ToolBoxControl : ItemsControl
     {
-        private static Style _toolboxControlStyle;
-        private Style ToolBoxControlStyle
+        static ToolBoxControl()
         {
-            get
-            {
-                if (_toolboxControlStyle == null)
-                {
-                    Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/ToolBoxControl;component/Styles/ToolBoxControlStyle.xaml", UriKind.RelativeOrAbsolute) });
-                    _toolboxControlStyle = FindResource("ToolBoxControlStyle") as Style;
-                }
-                return _toolboxControlStyle;
-            }
-        }
-
-        public ToolBoxControl() : base()
-        {
-            Style = ToolBoxControlStyle;
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolBoxControl), new FrameworkPropertyMetadata(typeof(ToolBoxControl)));
         }
 
         private Size defaultItemSize = new Size(65, 65);

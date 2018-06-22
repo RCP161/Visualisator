@@ -16,26 +16,16 @@ using ToolBoxControl.Controls;
 namespace ToolBoxControl.Controls
 {
     internal class DesignerCanvas : Canvas
-    { 
+    {
         private Point? dragStartPoint = null;
 
-        private static Style _designerCanvasStyle;
-        private Style DesignerCanvasStyle
+        static DesignerCanvas()
         {
-            get
-            {
-                if (_designerCanvasStyle == null)
-                {
-                    Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/ToolBoxControl;component/Styles/DesignerCanvasStyle.xaml", UriKind.RelativeOrAbsolute) });
-                    _designerCanvasStyle = FindResource("DesignerCanvasStyle") as Style;
-                }
-                return _designerCanvasStyle;
-            }
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignerCanvas), new FrameworkPropertyMetadata(typeof(DesignerCanvas)));
         }
 
         public DesignerCanvas() : base()
         {
-            Style = DesignerCanvasStyle;
             Loaded += DesignerCanvas_Loaded;
         }
 

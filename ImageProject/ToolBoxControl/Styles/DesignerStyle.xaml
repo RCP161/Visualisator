@@ -3,7 +3,7 @@
              xmlns:ctrl="clr-namespace:ToolBoxControl.Controls"
              xmlns:asby="clr-namespace:ToolBoxControl">
 
-    <Style x:Key="DesignerStyle" TargetType="{x:Type asby:Designer}">
+    <Style TargetType="{x:Type asby:Designer}">
         <Setter Property="ClipToBounds" Value="true"/>
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="Template">

@@ -11,25 +11,11 @@ namespace ToolBoxControl.Controls
 {
     internal class DesignerItem : ContentControl
     {
-        private static Style _designerItemStyle;
-        private Style DesignerItemStyle
+        static DesignerItem()
         {
-            get
-            {
-                if (_designerItemStyle == null)
-                {
-                    this.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/ToolBoxControl;component/Styles/DesignerItemStyle.xaml", UriKind.RelativeOrAbsolute) });
-                    _designerItemStyle = FindResource("DesignerItemStyle") as Style;
-                }
-                return _designerItemStyle;
-            }
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignerItem), new FrameworkPropertyMetadata(typeof(DesignerItem)));
         }
 
-        public DesignerItem() : base()
-        {
-            Style = DesignerItemStyle;
-        }
-        
         public bool IsSelected
         {
             get { return (bool)GetValue(IsSelectedProperty); }

@@ -10,23 +10,9 @@ namespace ToolBoxControl.Controls
 {
     internal class ResizeRotateControl : Control
     {
-        private static Style _resizeRotateStyle;
-        private Style ResizeRotateStyle
+        static ResizeRotateControl()
         {
-            get
-            {
-                if (_resizeRotateStyle == null)
-                {
-                    Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/ToolBoxControl;component/Styles/ResizeRotateControlStyle.xaml", UriKind.RelativeOrAbsolute) });
-                    _resizeRotateStyle = FindResource("ResizeRotateControlStyle") as Style;
-                }
-                return _resizeRotateStyle;
-            }
-        }
-
-        public ResizeRotateControl()
-        {
-            Style = ResizeRotateStyle;
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ResizeRotateControl), new FrameworkPropertyMetadata(typeof(ResizeRotateControl)));
         }
     }
 }

@@ -11,26 +11,12 @@ namespace ToolBoxControl.Controls
 {
     internal class ToolBoxItem : ContentControl
     {
-        private static Style _toolboxItemStyle;
-        private Style ToolBoxItemStyle
+        static ToolBoxItem()
         {
-            get
-            {
-                if (_toolboxItemStyle == null)
-                {
-                    Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/ToolBoxControl;component/Styles/ToolBoxItemStyle.xaml", UriKind.RelativeOrAbsolute) });
-                    _toolboxItemStyle = FindResource("ToolBoxItemStyle") as Style;
-                }
-                return _toolboxItemStyle;
-            }
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolBoxItem), new FrameworkPropertyMetadata(typeof(ToolBoxItem)));
         }
 
         private Point? dragStartPoint = null;
-
-        public ToolBoxItem() : base()
-        {
-            Style = ToolBoxItemStyle;
-        }
 
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {

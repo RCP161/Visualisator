@@ -23,7 +23,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ctrl:ResizeRotateControl}" x:Key="ResizeRotateControlStyle">
+    <Style TargetType="{x:Type ctrl:ResizeRotateControl}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ctrl:ResizeRotateControl}">

@@ -3,7 +3,7 @@
              xmlns:ctrl="clr-namespace:ToolBoxControl.Controls"
              xmlns:asby="clr-namespace:ToolBoxControl">
 
-    <Style x:Key="DesignerCanvasStyle" TargetType="{x:Type ctrl:DesignerCanvas}">
+    <Style TargetType="{x:Type ctrl:DesignerCanvas}">
         <Setter Property="ClipToBounds" Value="true"/>
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="AllowDrop" Value="true"/>

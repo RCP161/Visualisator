@@ -22,23 +22,13 @@ namespace ToolBoxControl
         public static readonly int ItemDefaultHeight = 65;
         public static readonly int ItemDockRange = 8;
 
-        private static Style _designerStyle;
-        private Style DesignerStyle
+        static Designer()
         {
-            get
-            {
-                if (_designerStyle == null)
-                {
-                    Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/ToolBoxControl;component/Styles/DesignerStyle.xaml", UriKind.RelativeOrAbsolute) });
-                    _designerStyle = FindResource("DesignerStyle") as Style;
-                }
-                return _designerStyle;
-            }
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(Designer), new FrameworkPropertyMetadata(typeof(Designer)));
         }
 
         public Designer() : base()
         {
-            Style = DesignerStyle;
             DataContext = this;
         }
 
