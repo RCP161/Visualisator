@@ -171,6 +171,8 @@ namespace ToolBoxControl
         #region Properties
 
         internal Dialogs.ZoomDialog ZoomDialog { get; set; }
+        internal DesignerCanvas DesignerArea { get; set; }
+        internal ScrollViewer DesignerScroller { get; set; }
 
         #endregion
 
@@ -200,12 +202,24 @@ namespace ToolBoxControl
             }
 
             Dialogs.ZoomDialog zd = new Dialogs.ZoomDialog();
-            zd.ScrollViewer = ScrollViewerControl;
+            zd.ScrollViewer = DesignerScroller;
             zd.DesignerArea = DesignerArea;
             zd.Designer = this;
             zd.Show();
 
             ZoomDialog = zd;
+        }
+        
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            DesignerScroller = GetTemplateChild("PART_DESIGNERSCROLLER") as ScrollViewer;
+            DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as DesignerCanvas;
+
+            AddNewLevel();
+
+            Loaded += Designer_Loaded;
+            Unloaded += Designer_Unloaded;
         }
 
         #endregion
