@@ -51,93 +51,90 @@ namespace ToolBoxControl.Controls
         {
             base.OnApplyTemplate();
 
-            // TODO : Anders machen? Binding und DependencyProperties? Doch Style auflösen?
-
-            this.zoomThumb = Template.FindName("PART_ZoomThumb", this) as Thumb;
-            if (this.zoomThumb == null)
+             zoomThumb = Template.FindName("PART_ZoomThumb", this) as Thumb;
+            if ( zoomThumb == null)
                 throw new Exception("PART_ZoomThumb template is missing!");
 
-            this.zoomCanvas = Template.FindName("PART_ZoomCanvas", this) as Canvas;
-            if (this.zoomCanvas == null)
+             zoomCanvas = Template.FindName("PART_ZoomCanvas", this) as Canvas;
+            if ( zoomCanvas == null)
                 throw new Exception("PART_ZoomCanvas template is missing!");
 
-            this.zoomSlider = Template.FindName("PART_ZoomSlider", this) as Slider;
-            if (this.zoomSlider == null)
+             zoomSlider = Template.FindName("PART_ZoomSlider", this) as Slider;
+            if ( zoomSlider == null)
                 throw new Exception("PART_ZoomSlider template is missing!");
 
-            this.DesignerCanvas.LayoutUpdated += new EventHandler(this.DesignerCanvas_LayoutUpdated);
+             DesignerCanvas.LayoutUpdated += new EventHandler( DesignerCanvas_LayoutUpdated);
 
-            this.zoomThumb.DragDelta += new DragDeltaEventHandler(this.Thumb_DragDelta);
+             zoomThumb.DragDelta += new DragDeltaEventHandler( Thumb_DragDelta);
 
-            this.zoomSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>(this.ZoomSlider_ValueChanged);
+             zoomSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>( ZoomSlider_ValueChanged);
 
-            this.scaleTransform = new ScaleTransform();
-            this.DesignerCanvas.LayoutTransform = this.scaleTransform;
+             scaleTransform = new ScaleTransform();
+             DesignerCanvas.LayoutTransform =  scaleTransform;
         }
 
         private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             double scale = e.NewValue / e.OldValue;
 
-            double halfViewportHeight = this.ScrollViewer.ViewportHeight / 2;
-            double newVerticalOffset = ((this.ScrollViewer.VerticalOffset + halfViewportHeight) * scale - halfViewportHeight);
+            double halfViewportHeight =  ScrollViewer.ViewportHeight / 2;
+            double newVerticalOffset = (( ScrollViewer.VerticalOffset + halfViewportHeight) * scale - halfViewportHeight);
 
-            double halfViewportWidth = this.ScrollViewer.ViewportWidth / 2;
-            double newHorizontalOffset = ((this.ScrollViewer.HorizontalOffset + halfViewportWidth) * scale - halfViewportWidth);
+            double halfViewportWidth =  ScrollViewer.ViewportWidth / 2;
+            double newHorizontalOffset = (( ScrollViewer.HorizontalOffset + halfViewportWidth) * scale - halfViewportWidth);
 
-            this.scaleTransform.ScaleX *= scale;
-            this.scaleTransform.ScaleY *= scale;
+             scaleTransform.ScaleX *= scale;
+             scaleTransform.ScaleY *= scale;
 
-            this.ScrollViewer.ScrollToHorizontalOffset(newHorizontalOffset);
-            this.ScrollViewer.ScrollToVerticalOffset(newVerticalOffset);
+             ScrollViewer.ScrollToHorizontalOffset(newHorizontalOffset);
+             ScrollViewer.ScrollToVerticalOffset(newVerticalOffset);
 
         }
 
         private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            double scale, xOffset, yOffset;
-            this.InvalidateScale(out scale, out xOffset, out yOffset);
+            InvalidateScale(out double scale, out double xOffset, out double yOffset);
 
-            this.ScrollViewer.ScrollToHorizontalOffset(this.ScrollViewer.HorizontalOffset + e.HorizontalChange / scale);
-            this.ScrollViewer.ScrollToVerticalOffset(this.ScrollViewer.VerticalOffset + e.VerticalChange / scale);
+            ScrollViewer.ScrollToHorizontalOffset( ScrollViewer.HorizontalOffset + e.HorizontalChange / scale);
+             ScrollViewer.ScrollToVerticalOffset( ScrollViewer.VerticalOffset + e.VerticalChange / scale);
         }
 
         
         private void DesignerCanvas_LayoutUpdated(object sender, EventArgs e)
         {
-            double scale, xOffset, yOffset, viewWidth, viewHeight;
-            this.InvalidateScale(out scale, out xOffset, out yOffset);
+            double viewWidth, viewHeight;
+             InvalidateScale(out double scale, out double xOffset, out double yOffset);
 
             if (ScrollViewer.ComputedHorizontalScrollBarVisibility != Visibility.Visible)
                 viewWidth = DesignerCanvas.ActualWidth;
             else
-                viewWidth = this.ScrollViewer.ViewportWidth;
+                viewWidth =  ScrollViewer.ViewportWidth;
 
             if (ScrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible)
                 viewHeight = DesignerCanvas.ActualHeight;
             else
-                viewHeight = this.ScrollViewer.ViewportHeight;
+                viewHeight =  ScrollViewer.ViewportHeight;
 
-            this.zoomThumb.Width = viewWidth * scale;
-            this.zoomThumb.Height = viewHeight * scale;
+             zoomThumb.Width = viewWidth * scale;
+             zoomThumb.Height = viewHeight * scale;
 
             // TODO : Wenn zoomSlider.Value <= 100 muss auch der inhalt der Zoombox schrumpfen. Zudem Beachten: Nach vergößern/verkleinern der ZoomBox muss der Rahmen auch noch stimmen
 
             // System.Diagnostics.Debug.WriteLine("Zoomthumb: " + zoomThumb.Width.ToString("000000.000") + " / " + zoomThumb.Height.ToString("000000.000"));
 
-            Canvas.SetLeft(this.zoomThumb, xOffset + this.ScrollViewer.HorizontalOffset * scale);
-            Canvas.SetTop(this.zoomThumb, yOffset + this.ScrollViewer.VerticalOffset * scale);
+            Canvas.SetLeft( zoomThumb, xOffset +  ScrollViewer.HorizontalOffset * scale);
+            Canvas.SetTop( zoomThumb, yOffset +  ScrollViewer.VerticalOffset * scale);
         }
 
         private void InvalidateScale(out double scale, out double xOffset, out double yOffset)
         {
             // designer canvas size
-            double w = this.DesignerCanvas.ActualWidth * this.scaleTransform.ScaleX;
-            double h = this.DesignerCanvas.ActualHeight * this.scaleTransform.ScaleY;
+            double w =  DesignerCanvas.ActualWidth *  scaleTransform.ScaleX;
+            double h =  DesignerCanvas.ActualHeight *  scaleTransform.ScaleY;
 
             // zoom canvas size
-            double x = this.zoomCanvas.ActualWidth;
-            double y = this.zoomCanvas.ActualHeight;
+            double x =  zoomCanvas.ActualWidth;
+            double y =  zoomCanvas.ActualHeight;
             
             double scaleX = x / w;
             double scaleY = y / h;

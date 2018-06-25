@@ -30,8 +30,6 @@ namespace ToolBoxControl
         public Designer() : base()
         {
             DataContext = this;
-            ClipToBounds = true;
-            SnapsToDevicePixels = true;
 
             Loaded += Designer_Loaded;
             Unloaded += Designer_Unloaded;
@@ -166,8 +164,10 @@ namespace ToolBoxControl
 
         public void AddNewLevel()
         {
-            DesignerCanvas desgnCanv = new DesignerCanvas();
-            desgnCanv.DesignerControl = this;
+            DesignerCanvas desgnCanv = new DesignerCanvas
+            {
+                DesignerControl = this
+            };
 
             if(DesignerArea.Children.Count < 1)
                 desgnCanv.Background = BackgroundColor;
@@ -186,10 +186,13 @@ namespace ToolBoxControl
                 return;
             }
 
-            Dialogs.ZoomDialog zd = new Dialogs.ZoomDialog();
-            zd.ScrollViewer = DesignerScroller;
-            zd.DesignerCanvas = DesignerArea;
-            zd.Designer = this;
+            Dialogs.ZoomDialog zd = new Dialogs.ZoomDialog
+            {
+                ScrollViewer = DesignerScroller,
+                DesignerCanvas = DesignerArea,
+                Designer = this
+            };
+
             zd.Show();
 
             ZoomDialog = zd;

@@ -14,7 +14,7 @@ namespace ToolBoxControl.Controls
     {
         public AdornerVisualisator()
         {
-            Unloaded += new RoutedEventHandler(this.DesignerItemDecorator_Unloaded);
+            Unloaded += new RoutedEventHandler(DesignerItemDecorator_Unloaded);
         }
 
         private Adorner adorner;
@@ -39,43 +39,43 @@ namespace ToolBoxControl.Controls
 
         private void HideAdorner()
         {
-            if (this.adorner != null)
-                this.adorner.Visibility = Visibility.Hidden;
+            if (adorner != null)
+                adorner.Visibility = Visibility.Hidden;
         }
 
         private void ShowAdorner()
         {
-            if (this.adorner == null)
+            if (adorner == null)
             {
-                DesignerItem designerItem = this.DataContext as DesignerItem;
+                DesignerItem designerItem =  DataContext as DesignerItem;
                 AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(designerItem);
 
                 if (adornerLayer != null)
                 {
-                    this.adorner = new ResizeRotateAdorner(designerItem);
-                    adornerLayer.Add(this.adorner);
+                     adorner = new ResizeRotateAdorner(designerItem);
+                    adornerLayer.Add( adorner);
 
-                    if (this.ShowItemUI)
-                        this.adorner.Visibility = Visibility.Visible;
+                    if ( ShowItemUI)
+                         adorner.Visibility = Visibility.Visible;
                     else
-                        this.adorner.Visibility = Visibility.Hidden;
+                         adorner.Visibility = Visibility.Hidden;
                 }
             }
             else
             {
-                this.adorner.Visibility = Visibility.Visible;
+                 adorner.Visibility = Visibility.Visible;
             }
         }
 
         private void DesignerItemDecorator_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (this.adorner != null)
+            if ( adorner != null)
             {
                 AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
                 if (adornerLayer != null)
-                    adornerLayer.Remove(this.adorner);
+                    adornerLayer.Remove( adorner);
 
-                this.adorner = null;
+                 adorner = null;
             }
         }
 

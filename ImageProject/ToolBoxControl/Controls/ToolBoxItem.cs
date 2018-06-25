@@ -21,22 +21,22 @@ namespace ToolBoxControl.Controls
         protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseDown(e);
-            this.dragStartPoint = new Point?(e.GetPosition(this));
+             dragStartPoint = new Point?(e.GetPosition(this));
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
             if (e.LeftButton != MouseButtonState.Pressed)
-                this.dragStartPoint = null;
+                 dragStartPoint = null;
 
-            if (this.dragStartPoint.HasValue)
+            if ( dragStartPoint.HasValue)
             {
                 Point position = e.GetPosition(this);
-                if ((SystemParameters.MinimumHorizontalDragDistance <= Math.Abs((double)(position.X - this.dragStartPoint.Value.X))) ||
-                    (SystemParameters.MinimumVerticalDragDistance <= Math.Abs((double)(position.Y - this.dragStartPoint.Value.Y))))
+                if ((SystemParameters.MinimumHorizontalDragDistance <= Math.Abs((double)(position.X -  dragStartPoint.Value.X))) ||
+                    (SystemParameters.MinimumVerticalDragDistance <= Math.Abs((double)(position.Y -  dragStartPoint.Value.Y))))
                 {
-                    string xamlString = System.Windows.Markup.XamlWriter.Save(this.Content);
+                    string xamlString = System.Windows.Markup.XamlWriter.Save( Content);
                     DataObject dataObject = new DataObject("DESIGNER_ITEM", xamlString);
 
                     if (dataObject != null)

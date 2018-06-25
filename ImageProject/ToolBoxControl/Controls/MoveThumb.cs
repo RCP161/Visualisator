@@ -24,15 +24,15 @@ namespace ToolBoxControl.Controls
 
         public MoveThumb()
         {
-            DragStarted += new DragStartedEventHandler(this.MoveThumb_DragStarted);
-            DragDelta += new DragDeltaEventHandler(this.MoveThumb_DragDelta);
+            DragStarted += new DragStartedEventHandler( MoveThumb_DragStarted);
+            DragDelta += new DragDeltaEventHandler( MoveThumb_DragDelta);
         }
 
         private void MoveThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            this.designerItem = DataContext as DesignerItem;
+             designerItem = DataContext as DesignerItem;
 
-            if (this.designerItem != null)
+            if ( designerItem != null)
             {
                 var pos = Mouse.GetPosition(designerItem);
                 offsetX = pos.X;
@@ -42,7 +42,7 @@ namespace ToolBoxControl.Controls
 
         private void MoveThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            if (designerItem.DesignerCanvas != null && this.designerItem != null && this.designerItem.IsSelected)
+            if (designerItem.DesignerCanvas != null &&  designerItem != null &&  designerItem.IsSelected)
             {
                 // Aktuelle Position
                 double x = Mouse.GetPosition(designerItem.DesignerCanvas).X - offsetX;
@@ -111,7 +111,7 @@ namespace ToolBoxControl.Controls
 
                 //System.Diagnostics.Debug.WriteLine("Pos: " + x.ToString("000000.000") + " / " + y.ToString("000000.000"));
 
-                foreach (DesignerItem item in this.designerItem.DesignerCanvas.SelectedItems)
+                foreach (DesignerItem item in  designerItem.DesignerCanvas.SelectedItems)
                 {
                     item.Position = new Point(item.Position.X + x, item.Position.Y + y);
                     Canvas.SetLeft(item, item.Position.X);

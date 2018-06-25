@@ -45,7 +45,7 @@ namespace ToolBoxControl.Controls
         {
             get
             {
-                var selectedItems = from item in this.Children.OfType<DesignerItem>()
+                var selectedItems = from item in  Children.OfType<DesignerItem>()
                                     where item.IsSelected == true
                                     select item;
 
@@ -55,7 +55,7 @@ namespace ToolBoxControl.Controls
 
         public void DeselectAll()
         {
-            foreach (DesignerItem item in this.SelectedItems)
+            foreach (DesignerItem item in  SelectedItems)
                 item.IsSelected = false;
         }
         
@@ -64,8 +64,8 @@ namespace ToolBoxControl.Controls
             base.OnMouseDown(e);
             if (e.Source == this)
             {
-                this.dragStartPoint = new Point?(e.GetPosition(this));
-                this.DeselectAll();
+                 dragStartPoint = new Point?(e.GetPosition(this));
+                 DeselectAll();
                 e.Handled = true;
             }
         }
@@ -75,14 +75,14 @@ namespace ToolBoxControl.Controls
             base.OnMouseMove(e);
 
             if (e.LeftButton != MouseButtonState.Pressed)
-                this.dragStartPoint = null;
+                 dragStartPoint = null;
 
-            if (this.dragStartPoint.HasValue)
+            if ( dragStartPoint.HasValue)
             {
                 AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
                 if (adornerLayer != null)
                 {
-                    RubberbandAdorner adorner = new RubberbandAdorner(this, this.dragStartPoint);
+                    RubberbandAdorner adorner = new RubberbandAdorner(this,  dragStartPoint);
                     if (adorner != null)
                         adornerLayer.Add(adorner);
                 }
@@ -98,19 +98,20 @@ namespace ToolBoxControl.Controls
             if (!String.IsNullOrEmpty(xamlString))
             {
                 DesignerItem newItem = null;
-                FrameworkElement content = XamlReader.Load(XmlReader.Create(new StringReader(xamlString))) as FrameworkElement;
 
-                if (content != null)
+                if(XamlReader.Load(XmlReader.Create(new StringReader(xamlString))) is FrameworkElement content)
                 {
-                    newItem = new DesignerItem();
-                    newItem.Content = content;
-                    newItem.DesignerCanvas = this;
+                    newItem = new DesignerItem
+                    {
+                        Content = content,
+                        DesignerCanvas = this
+                    };
 
                     var pos = e.GetPosition(this);
 
-                    if (content.MinHeight != 0 && content.MinWidth != 0)
+                    if(content.MinHeight != 0 && content.MinWidth != 0)
                     {
-                        newItem.Width = content.MinWidth * 2; ;
+                        newItem.Width = content.MinWidth * 2;
                         newItem.Height = content.MinHeight * 2;
                     }
                     else
@@ -118,14 +119,14 @@ namespace ToolBoxControl.Controls
                         newItem.Width = Designer.ItemDefaultWidth;
                         newItem.Height = Designer.ItemDefaultHeight;
                     }
-                    
+
                     DesignerCanvas.SetLeft(newItem, Math.Max(0, pos.X - newItem.Width / 2));
                     DesignerCanvas.SetTop(newItem, Math.Max(0, pos.Y - newItem.Height / 2));
-                    this.Children.Add(newItem);
+                    Children.Add(newItem);
 
                     newItem.Position = new Point(DesignerCanvas.GetLeft(newItem), DesignerCanvas.GetTop(newItem));
 
-                    this.DeselectAll();
+                    DeselectAll();
                     newItem.IsSelected = true;
                 }
 
@@ -149,13 +150,13 @@ namespace ToolBoxControl.Controls
             {
                 double left = Canvas.GetLeft(element);
                 double top = Canvas.GetTop(element);
-                left = double.IsNaN(left) ? 0 : left;
-                top = double.IsNaN(top) ? 0 : top;
+                left = Double.IsNaN(left) ? 0 : left;
+                top = Double.IsNaN(top) ? 0 : top;
 
                 element.Measure(constraint);
 
                 Size desiredSize = element.DesiredSize;
-                if (!double.IsNaN(desiredSize.Width) && !double.IsNaN(desiredSize.Height))
+                if (!Double.IsNaN(desiredSize.Width) && !Double.IsNaN(desiredSize.Height))
                 {
                     size.Width = Math.Max(size.Width, left + desiredSize.Width);
                     size.Height = Math.Max(size.Height, top + desiredSize.Height);

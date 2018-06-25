@@ -44,14 +44,14 @@ namespace ToolBoxControl.Controls
             {
                 if ((Keyboard.Modifiers & (ModifierKeys.Shift | ModifierKeys.Control)) != ModifierKeys.None)
                 {
-                    this.IsSelected = !this.IsSelected;
+                     IsSelected = ! IsSelected;
                 }
                 else
                 {
-                    if (!this.IsSelected)
+                    if (! IsSelected)
                     {
                         DesignerCanvas.DeselectAll();
-                        this.IsSelected = true;
+                         IsSelected = true;
                     }
                 }
             }

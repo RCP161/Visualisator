@@ -18,8 +18,8 @@ namespace ToolBoxControl
         private Size defaultItemSize = new Size(65, 65);
         public Size DefaultItemSize
         {
-            get { return this.defaultItemSize; }
-            set { this.defaultItemSize = value; }
+            get { return  defaultItemSize; }
+            set {  defaultItemSize = value; }
         }
 
         protected override DependencyObject GetContainerForItemOverride()

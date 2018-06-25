@@ -19,28 +19,34 @@ namespace ToolBoxControl.Controls
         {
             get
             {
-                return this.visuals.Count;
+                return  visuals.Count;
             }
         }
 
         public ResizeRotateAdorner(DesignerItem designerItem) : base(designerItem)
         {
             SnapsToDevicePixels = true;
-            this.chrome = new ResizeRotateControl();
-            this.chrome.DataContext = designerItem;
-            this.visuals = new VisualCollection(this);
-            this.visuals.Add(this.chrome);
+
+            chrome = new ResizeRotateControl
+            {
+                DataContext = designerItem
+            };
+
+            visuals = new VisualCollection(this)
+            {
+                chrome
+            };
         }
 
         protected override Size ArrangeOverride(Size arrangeBounds)
         {
-            this.chrome.Arrange(new Rect(arrangeBounds));
+             chrome.Arrange(new Rect(arrangeBounds));
             return arrangeBounds;
         }
 
         protected override Visual GetVisualChild(int index)
         {
-            return this.visuals[index];
+            return  visuals[index];
         }
     }
 }
