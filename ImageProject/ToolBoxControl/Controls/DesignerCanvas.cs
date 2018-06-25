@@ -24,11 +24,6 @@ namespace ToolBoxControl.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignerCanvas), new FrameworkPropertyMetadata(typeof(DesignerCanvas)));
         }
 
-        public DesignerCanvas() : base()
-        {
-            Loaded += DesignerCanvas_Loaded;
-        }
-
         public Designer DesignerControl
         {
             get { return (Designer)GetValue(DesignerControlProperty); }
@@ -56,16 +51,6 @@ namespace ToolBoxControl.Controls
 
                 return selectedItems;
             }
-        }
-
-        // TODO : Sollte eigentlich an den Designer, aber ich bekomme den umbau ohne Styles nicht hin
-        public void ShowZoomBoxDialog()
-        {
-            Dialogs.ZoomDialog zd = new Dialogs.ZoomDialog();
-            zd.ScrollViewer = ScrollViewerControl;
-            zd.DesignerCanvas = this;
-            zd.Designer = DesignerControl;
-            zd.Show();
         }
 
         public void DeselectAll()
@@ -182,11 +167,6 @@ namespace ToolBoxControl.Controls
             size.Height += 10;
 
             return size;
-        }
-
-        private void DesignerCanvas_Loaded(object sender, RoutedEventArgs e)
-        {
-            ShowZoomBoxDialog();
         }
     }
 }

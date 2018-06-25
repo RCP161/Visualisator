@@ -17,8 +17,8 @@
                     </ScrollViewer>
                     <ControlTemplate.Triggers>
                         <Trigger Property="DesignerCanResize" Value="False">
-                            <Setter TargetName="desgCanv" Property="Width" Value="{Binding DesignerWidth}"/>
-                            <Setter TargetName="desgCanv" Property="Height" Value="{Binding DesignerHeight}"/>
+                            <Setter TargetName="PART_DESIGNERAREA" Property="Width" Value="{Binding DesignerWidth}"/>
+                            <Setter TargetName="PART_DESIGNERAREA" Property="Height" Value="{Binding DesignerHeight}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

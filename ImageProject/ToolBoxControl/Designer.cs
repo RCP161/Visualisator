@@ -33,14 +33,13 @@ namespace ToolBoxControl
             ClipToBounds = true;
             SnapsToDevicePixels = true;
 
-            AddNewLevel();
-
             Loaded += Designer_Loaded;
             Unloaded += Designer_Unloaded;
         }
 
         // TODO : NEU Properties einpflegen
 
+        // DesignerCollection für ebenen
         // Colors (generell, dass es normal gestylet werden kann)
         // Raster an DesignerCanvas 
 
@@ -52,25 +51,12 @@ namespace ToolBoxControl
         // Dockverhalten ausbauen mit Docken auch an die anderen Punkte, oder auch beim Resize eines Items
 
 
-        // TODO : ALT Properties einpflegen
-
-        // DesignerCollection für ebenen
-        // Colors (generell, dass es normal gestylet werden kann)
-        // Raster an DesignerCanvas 
-
-        // Funktion zum aufrufen der ZoomBox 
-        // Funktion zum hinzufügen/entfernen/verschieben von Ebenen 
-        // Beim schließen alle Fenster schließen
-
-        // Prio Z
-        // Dockverhalten ausbauen mit Docken auch an die anderen Punkte, oder auch beim Resize eines Items
-
-
         // Fehler: 
         // System.Windows.Data Error: 2 : Cannot find governing FrameworkElement or FrameworkContentElement for target element. BindingExpression:Path=ScrollViewer.Content; DataItem=null; target element is 'VisualBrush' (HashCode=30123835); target property is 'Visual' (type 'Visual')
 
         #region WPF Properties
 
+        // TODO : Standard ändern auf false
         /// <summary>
         /// Gibt an, ob die ZoomBox gestartet werden soll
         /// </summary>
@@ -80,7 +66,7 @@ namespace ToolBoxControl
             set { SetValue(IsZoomBoxActivProperty, value); }
         }
 
-        public static readonly DependencyProperty IsZoomBoxActivProperty = DependencyProperty.Register("IsZoomBoxActiv", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(false));
+        public static readonly DependencyProperty IsZoomBoxActivProperty = DependencyProperty.Register("IsZoomBoxActiv", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(true));
 
 
         /// <summary>
@@ -182,7 +168,6 @@ namespace ToolBoxControl
         {
             DesignerCanvas desgnCanv = new DesignerCanvas();
             desgnCanv.DesignerControl = this;
-            desgnCanv.IsSelected = true;
 
             if(DesignerArea.Children.Count < 1)
                 desgnCanv.Background = BackgroundColor;
@@ -203,7 +188,7 @@ namespace ToolBoxControl
 
             Dialogs.ZoomDialog zd = new Dialogs.ZoomDialog();
             zd.ScrollViewer = DesignerScroller;
-            zd.DesignerArea = DesignerArea;
+            zd.DesignerCanvas = DesignerArea;
             zd.Designer = this;
             zd.Show();
 
@@ -217,25 +202,22 @@ namespace ToolBoxControl
             DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as DesignerCanvas;
 
             AddNewLevel();
-
-            Loaded += Designer_Loaded;
-            Unloaded += Designer_Unloaded;
         }
 
         #endregion
 
         #region Events
 
-        private void Designer_Unloaded(object sender, RoutedEventArgs e)
-        {
-            if(ZoomDialog != null)
-                ZoomDialog.Close();
-        }
-
         private void Designer_Loaded(object sender, RoutedEventArgs e)
         {
             if(IsZoomBoxActiv)
                 ShowZoomBoxDialog();
+        }
+
+        private void Designer_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if(ZoomDialog != null)
+                ZoomDialog.Close();
         }
 
         #endregion
