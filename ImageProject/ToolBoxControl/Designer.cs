@@ -37,21 +37,12 @@ namespace ToolBoxControl
 
         // TODO : Properties einpflegen
 
+        // Interface für Spezial Docking (DockingPunkte)
         // Docking Linien Adorner einblenden bei Dockverhalten
-        // DesignerCollection für ebenen
-        // Colors (generell, dass es normal gestylet werden kann)
-        // Raster an DesignerCanvas 
-
-        // Funktion zum aufrufen der ZoomBox 
+        // DesignerCollection für Ebenen
+        // Raster an DesignerCanvas über Docking
         // Dialog zum hinzufügen/entfernen/verschieben von Ebenen 
-        // Beim schließen alle Fenster schließen
 
-        // Prio Z
-        // Dockverhalten ausbauen mit Docken auch an die anderen Punkte, oder auch beim Resize eines Items
-
-
-        // Fehler: 
-        // System.Windows.Data Error: 2 : Cannot find governing FrameworkElement or FrameworkContentElement for target element. BindingExpression:Path=ScrollViewer.Content; DataItem=null; target element is 'VisualBrush' (HashCode=30123835); target property is 'Visual' (type 'Visual')
 
         #region WPF Properties
 
