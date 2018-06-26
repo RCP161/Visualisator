@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,8 @@ using ToolBoxControl.Controls;
 
 namespace ToolBoxControl.Controls
 {
-    internal class DesignerCanvas : Canvas
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public class DesignerCanvas : Canvas
     {
         private Point? dragStartPoint = null;
 
@@ -30,7 +32,17 @@ namespace ToolBoxControl.Controls
             set { SetValue(DesignerControlProperty, value); }
         }
 
-        public static readonly DependencyProperty DesignerControlProperty = DependencyProperty.Register("DesignerControl", typeof(Designer), typeof(DesignerCanvas), new FrameworkPropertyMetadata(null)); 
+        public static readonly DependencyProperty DesignerControlProperty = DependencyProperty.Register("DesignerControl", typeof(Designer), typeof(DesignerCanvas), new FrameworkPropertyMetadata(null));
+
+
+        public bool IsVisibleInDesigner
+        {
+            get { return (bool)GetValue(IsVisibleInDesignerProperty); }
+            set { SetValue(IsVisibleInDesignerProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsVisibleInDesignerProperty = DependencyProperty.Register("IsVisibleInDesigner", typeof(bool), typeof(DesignerCanvas), new FrameworkPropertyMetadata(true));
+
 
         public IEnumerable<DesignerItem> SelectedItems
         {

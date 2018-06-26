@@ -50,7 +50,14 @@
     <Compile Include="Controls\DesignerItem.cs" />
     <Compile Include="Controls\ResizeRotateControl.cs" />
     <Compile Include="Controls\ZoomBox.cs" />
+    <Compile Include="Dialogs\PlaneDialog.xaml.cs">
+      <DependentUpon>PlaneDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ToolBoxControl.cs" />
+    <Page Include="Dialogs\PlaneDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\ZoomDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

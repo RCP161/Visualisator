@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,8 @@ using System.Windows.Input;
 
 namespace ToolBoxControl.Controls
 {
-    internal class DesignerItem : ContentControl
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public class DesignerItem : ContentControl
     {
         static DesignerItem()
         {

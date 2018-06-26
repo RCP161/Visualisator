@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -31,33 +33,51 @@ namespace ToolBoxControl
         {
             DataContext = this;
 
+            Planes = new ObservableCollection<DesignerCanvas>();
+
             Loaded += Designer_Loaded;
             Unloaded += Designer_Unloaded;
         }
 
-        // TODO : Properties einpflegen
-
+        // TODO Liste
+        // Eigene Property für Imagebackground (Derzeit nur Background)
         // Interface für Spezial Docking (DockingPunkte)
         // Docking Linien Adorner einblenden bei Dockverhalten
         // DesignerCollection für Ebenen
         // Raster an DesignerCanvas über Docking
-        // Dialog zum hinzufügen/entfernen/verschieben von Ebenen 
+        // Dialog zum hinzufügen/entfernen/verschieben von Ebenen
+        // KontextMenü Item nach vorne / Hinten
+        // Mehrsprachenfähigkeit
 
+        // TODO : Prüfen ob ich den DataContext der Dialoge auf den Designer setzen kann und somit direkt daran binden
 
         #region WPF Properties
 
         // TODO : Standard ändern auf false
         /// <summary>
-        /// Gibt an, ob die ZoomBox gestartet werden soll
+        /// Gibt an, ob der ZoomDialog sichtbar ist
         /// </summary>
-        public bool IsZoomBoxActiv
+        public bool IsZoomDialogActiv
         {
-            get { return (bool)GetValue(IsZoomBoxActivProperty); }
-            set { SetValue(IsZoomBoxActivProperty, value); }
+            get { return (bool)GetValue(IsZoomDialogActivProperty); }
+            set { SetValue(IsZoomDialogActivProperty, value); }
         }
 
-        public static readonly DependencyProperty IsZoomBoxActivProperty = DependencyProperty.Register("IsZoomBoxActiv", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(true));
+        public static readonly DependencyProperty IsZoomDialogActivProperty = DependencyProperty.Register("IsZoomDialogActiv", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(true));
 
+
+        // TODO : Standard ändern auf false
+        /// <summary>
+        /// Gibt an, ob der EbenenDialog sichtbar ist
+        /// </summary>
+        public bool IsPlaneDialogActiv
+        {
+            get { return (bool)GetValue(IsPlaneDialogActivProperty); }
+            set { SetValue(IsPlaneDialogActivProperty, value); }
+        }
+
+
+        public static readonly DependencyProperty IsPlaneDialogActivProperty = DependencyProperty.Register("IsPlaneDialogActiv", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(true));
 
         /// <summary>
         /// Gibt an, ob sich der Designer selber vergrößern darf
@@ -147,14 +167,21 @@ namespace ToolBoxControl
         #region Properties
 
         internal Dialogs.ZoomDialog ZoomDialog { get; set; }
+        internal Dialogs.PlaneDialog PlaneDialog { get; set; }
         internal Grid DesignerArea { get; set; }
         internal ScrollViewer DesignerScroller { get; set; }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public IList<DesignerCanvas> Planes { get; set; }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public DesignerCanvas SelectedPlane { get; set; } // TODO : INotyfyPropertyChanged
 
         #endregion
 
         #region Methods
 
-        public void AddNewLevel()
+        private void AddNewLevel()
         {
             DesignerCanvas desgnCanv = new DesignerCanvas
             {
@@ -164,13 +191,15 @@ namespace ToolBoxControl
             if(DesignerArea.Children.Count < 1)
                 desgnCanv.Background = BackgroundColor;
 
+            // TODO : Prüfen ob ich stattdessen Planes an das Grid binden kann
             DesignerArea.Children.Add(desgnCanv);
+            Planes.Add(desgnCanv);
 
             desgnCanv.HorizontalAlignment = HorizontalAlignment.Stretch;
             desgnCanv.VerticalAlignment = VerticalAlignment.Stretch;
         }
 
-        public void ShowZoomBoxDialog()
+        private void ShowZoomBoxDialog()
         {
             if(ZoomDialog != null)
             {
@@ -188,7 +217,23 @@ namespace ToolBoxControl
 
             ZoomDialog = zd;
         }
-        
+
+        private void ShowPlaneDialog()
+        {
+            if(PlaneDialog != null)
+            {
+                PlaneDialog.Activate();
+                return;
+            }
+
+            Dialogs.PlaneDialog pd = new Dialogs.PlaneDialog();
+            pd.DataContext = this;
+
+            pd.Show();
+
+            PlaneDialog = pd;
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -204,14 +249,23 @@ namespace ToolBoxControl
 
         private void Designer_Loaded(object sender, RoutedEventArgs e)
         {
-            if(IsZoomBoxActiv)
+            if(System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
+                return;
+
+            if(IsZoomDialogActiv)
                 ShowZoomBoxDialog();
+
+            if(IsPlaneDialogActiv)
+                ShowPlaneDialog();
         }
 
         private void Designer_Unloaded(object sender, RoutedEventArgs e)
         {
             if(ZoomDialog != null)
                 ZoomDialog.Close();
+
+            if(PlaneDialog != null)
+                PlaneDialog.Close();
         }
 
         #endregion
