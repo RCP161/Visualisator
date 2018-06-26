@@ -35,13 +35,13 @@ namespace ToolBoxControl.Dialogs
 
         public static readonly DependencyProperty ScrollViewerProperty = DependencyProperty.Register("ScrollViewer", typeof(ScrollViewer), typeof(ZoomDialog), new FrameworkPropertyMetadata(null));
 
-        public Grid DesignerArea
+        public ItemsControl DesignerArea
         {
-            get { return (Grid)GetValue(DesignerAreaProperty); }
+            get { return (ItemsControl)GetValue(DesignerAreaProperty); }
             set { SetValue(DesignerAreaProperty, value); }
         }
 
-        public static readonly DependencyProperty DesignerAreaProperty = DependencyProperty.Register("DesignerArea", typeof(Grid), typeof(ZoomDialog), new FrameworkPropertyMetadata(null));
+        public static readonly DependencyProperty DesignerAreaProperty = DependencyProperty.Register("DesignerArea", typeof(ItemsControl), typeof(ZoomDialog), new FrameworkPropertyMetadata(null));
 
     }
 }

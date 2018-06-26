@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,7 +17,7 @@ using ToolBoxControl.Controls;
 
 namespace ToolBoxControl
 {
-    public class Designer : ContentControl
+    public class Designer : ContentControl, INotifyPropertyChanged
     {
         public static readonly int DesignerDefaultWidth = 800;
         public static readonly int DesignerDefaultHeight = 600;
@@ -168,14 +169,34 @@ namespace ToolBoxControl
 
         internal Dialogs.ZoomDialog ZoomDialog { get; set; }
         internal Dialogs.PlaneDialog PlaneDialog { get; set; }
-        internal Grid DesignerArea { get; set; }
+        internal ItemsControl DesignerArea { get; set; }
         internal ScrollViewer DesignerScroller { get; set; }
 
+
+        public IList<DesignerCanvas> _planes;
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IList<DesignerCanvas> Planes { get; set; }
+        public IList<DesignerCanvas> Planes
+        {
+            get { return _planes; }
+            set { SetField(ref _planes, value); }
+        }
+
+        public DesignerCanvas _selectedPlane; 
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public DesignerCanvas SelectedPlane
+        {
+            get { return _selectedPlane; }
+            set { SetField(ref _selectedPlane, value); }
+        }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public DesignerCanvas SelectedPlane { get; set; } // TODO : INotyfyPropertyChanged
+        public IList<DesignerCanvas> AktivPlanes
+        {
+            get
+            {
+                return Planes.Where(p => p.IsVisibleInDesigner).ToList();
+            }
+        }
 
         #endregion
 
@@ -188,15 +209,14 @@ namespace ToolBoxControl
                 DesignerControl = this
             };
 
-            if(DesignerArea.Children.Count < 1)
+            if(Planes.Count < 1)
                 desgnCanv.Background = BackgroundColor;
 
-            // TODO : Prüfen ob ich stattdessen Planes an das Grid binden kann
-            DesignerArea.Children.Add(desgnCanv);
-            Planes.Add(desgnCanv);
+            // TODO : das muss durch das Binding passieren
+            // DesignerArea.Childs.Add(desgnCanv);
 
-            desgnCanv.HorizontalAlignment = HorizontalAlignment.Stretch;
-            desgnCanv.VerticalAlignment = VerticalAlignment.Stretch;
+            Planes.Add(desgnCanv);
+            RefreshAktivPlaneStates();
         }
 
         private void ShowZoomBoxDialog()
@@ -226,19 +246,26 @@ namespace ToolBoxControl
                 return;
             }
 
-            Dialogs.PlaneDialog pd = new Dialogs.PlaneDialog();
-            pd.DataContext = this;
+            Dialogs.PlaneDialog pd = new Dialogs.PlaneDialog
+            {
+                DataContext = this
+            };
 
             pd.Show();
 
             PlaneDialog = pd;
         }
 
+        internal void RefreshAktivPlaneStates()
+        {
+            OnPropertyChanged("AktivPlanes");
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             DesignerScroller = GetTemplateChild("PART_DESIGNERSCROLLER") as ScrollViewer;
-            DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as Grid;
+            DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as ItemsControl;
 
             AddNewLevel();
         }
@@ -266,6 +293,26 @@ namespace ToolBoxControl
 
             if(PlaneDialog != null)
                 PlaneDialog.Close();
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if(EqualityComparer<T>.Default.Equals(field, value))
+                return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
         }
 
         #endregion

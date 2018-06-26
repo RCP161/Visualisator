@@ -7,5 +7,7 @@
         <Setter Property="ClipToBounds" Value="true"/>
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="AllowDrop" Value="true"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
     </Style>
 </ResourceDictionary>
