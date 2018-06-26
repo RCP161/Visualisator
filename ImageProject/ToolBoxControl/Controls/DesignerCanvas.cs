@@ -32,15 +32,6 @@ namespace ToolBoxControl.Controls
 
         public static readonly DependencyProperty DesignerControlProperty = DependencyProperty.Register("DesignerControl", typeof(Designer), typeof(DesignerCanvas), new FrameworkPropertyMetadata(null)); 
 
-        public ScrollViewer ScrollViewerControl
-        {
-            get { return (ScrollViewer)GetValue(ScrollViewerControlProperty); }
-            set { SetValue(ScrollViewerControlProperty, value); }
-        }
-
-        public static readonly DependencyProperty ScrollViewerControlProperty = DependencyProperty.Register("ScrollViewerControl", typeof(ScrollViewer), typeof(DesignerCanvas), new FrameworkPropertyMetadata(null));
-
-
         public IEnumerable<DesignerItem> SelectedItems
         {
             get

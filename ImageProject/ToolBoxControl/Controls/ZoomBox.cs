@@ -30,22 +30,13 @@ namespace ToolBoxControl.Controls
 
         public static readonly DependencyProperty ScrollViewerProperty = DependencyProperty.Register("ScrollViewer", typeof(ScrollViewer), typeof(ZoomBox), new FrameworkPropertyMetadata(null));
 
-        public DesignerCanvas DesignerCanvas
+        public Grid DesignerArea
         {
-            get { return (DesignerCanvas)GetValue(DesignerCanvasProperty); }
-            set { SetValue(DesignerCanvasProperty, value); }
+            get { return (Grid)GetValue(DesignerAreaProperty); }
+            set { SetValue(DesignerAreaProperty, value); }
         }
 
-        public static readonly DependencyProperty DesignerCanvasProperty = DependencyProperty.Register("DesignerCanvas", typeof(DesignerCanvas), typeof(ZoomBox), new FrameworkPropertyMetadata(null));
-
-        public Designer Designer
-        {
-            get { return (Designer)GetValue(DesignerProperty); }
-            set { SetValue(DesignerProperty, value); }
-        }
-
-        public static readonly DependencyProperty DesignerProperty = DependencyProperty.Register("Designer", typeof(Designer), typeof(ZoomBox), new FrameworkPropertyMetadata(null));
-
+        public static readonly DependencyProperty DesignerAreaProperty = DependencyProperty.Register("DesignerArea", typeof(Grid), typeof(ZoomBox), new FrameworkPropertyMetadata(null));
 
         public override void OnApplyTemplate()
         {
@@ -63,14 +54,14 @@ namespace ToolBoxControl.Controls
             if ( zoomSlider == null)
                 throw new Exception("PART_ZoomSlider template is missing!");
 
-             DesignerCanvas.LayoutUpdated += new EventHandler( DesignerCanvas_LayoutUpdated);
+             DesignerArea.LayoutUpdated += new EventHandler(DesignerArea_LayoutUpdated);
 
              zoomThumb.DragDelta += new DragDeltaEventHandler( Thumb_DragDelta);
 
              zoomSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>( ZoomSlider_ValueChanged);
 
              scaleTransform = new ScaleTransform();
-             DesignerCanvas.LayoutTransform =  scaleTransform;
+             DesignerArea.LayoutTransform =  scaleTransform;
         }
 
         private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -100,18 +91,18 @@ namespace ToolBoxControl.Controls
         }
 
         
-        private void DesignerCanvas_LayoutUpdated(object sender, EventArgs e)
+        private void DesignerArea_LayoutUpdated(object sender, EventArgs e)
         {
             double viewWidth, viewHeight;
              InvalidateScale(out double scale, out double xOffset, out double yOffset);
 
             if (ScrollViewer.ComputedHorizontalScrollBarVisibility != Visibility.Visible)
-                viewWidth = DesignerCanvas.ActualWidth;
+                viewWidth = DesignerArea.ActualWidth;
             else
                 viewWidth =  ScrollViewer.ViewportWidth;
 
             if (ScrollViewer.ComputedVerticalScrollBarVisibility != Visibility.Visible)
-                viewHeight = DesignerCanvas.ActualHeight;
+                viewHeight = DesignerArea.ActualHeight;
             else
                 viewHeight =  ScrollViewer.ViewportHeight;
 
@@ -128,9 +119,9 @@ namespace ToolBoxControl.Controls
 
         private void InvalidateScale(out double scale, out double xOffset, out double yOffset)
         {
-            // designer canvas size
-            double w =  DesignerCanvas.ActualWidth *  scaleTransform.ScaleX;
-            double h =  DesignerCanvas.ActualHeight *  scaleTransform.ScaleY;
+            // DesignerArea size
+            double w =  DesignerArea.ActualWidth *  scaleTransform.ScaleX;
+            double h =  DesignerArea.ActualHeight *  scaleTransform.ScaleY;
 
             // zoom canvas size
             double x =  zoomCanvas.ActualWidth;

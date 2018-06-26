@@ -35,8 +35,9 @@ namespace ToolBoxControl
             Unloaded += Designer_Unloaded;
         }
 
-        // TODO : NEU Properties einpflegen
+        // TODO : Properties einpflegen
 
+        // Docking Linien Adorner einblenden bei Dockverhalten
         // DesignerCollection für ebenen
         // Colors (generell, dass es normal gestylet werden kann)
         // Raster an DesignerCanvas 
@@ -155,7 +156,7 @@ namespace ToolBoxControl
         #region Properties
 
         internal Dialogs.ZoomDialog ZoomDialog { get; set; }
-        internal DesignerCanvas DesignerArea { get; set; }
+        internal Grid DesignerArea { get; set; }
         internal ScrollViewer DesignerScroller { get; set; }
 
         #endregion
@@ -189,8 +190,7 @@ namespace ToolBoxControl
             Dialogs.ZoomDialog zd = new Dialogs.ZoomDialog
             {
                 ScrollViewer = DesignerScroller,
-                DesignerCanvas = DesignerArea,
-                Designer = this
+                DesignerArea = DesignerArea
             };
 
             zd.Show();
@@ -202,7 +202,7 @@ namespace ToolBoxControl
         {
             base.OnApplyTemplate();
             DesignerScroller = GetTemplateChild("PART_DESIGNERSCROLLER") as ScrollViewer;
-            DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as DesignerCanvas;
+            DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as Grid;
 
             AddNewLevel();
         }
