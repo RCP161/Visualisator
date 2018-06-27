@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using ToolBoxControl.Controls;
 
 namespace ToolBoxControl.ViewModels
 {
@@ -14,8 +15,10 @@ namespace ToolBoxControl.ViewModels
     {
         internal DesignerVm()
         { 
-            Planes = new ObservableCollection<DesignerCanvasVm>();
-            AddNewLevel();
+            Planes = new ObservableCollection<DesignerCanvas>();
+
+            ShowPlaneDialog();
+            ShowZoomBoxDialog();
         }
 
         #region private fields
@@ -55,21 +58,21 @@ namespace ToolBoxControl.ViewModels
             set { SetField(ref _designerHeight, value); }
         }
 
-        public IList<DesignerCanvasVm> _planes;
-        public IList<DesignerCanvasVm> Planes
+        public IList<DesignerCanvas> _planes;
+        public IList<DesignerCanvas> Planes
         {
             get { return _planes; }
             set { SetField(ref _planes, value); }
         }
 
-        public DesignerCanvasVm _selectedPlane;
-        public DesignerCanvasVm SelectedPlane
+        public DesignerCanvas _selectedPlane;
+        public DesignerCanvas SelectedPlane
         {
             get { return _selectedPlane; }
             set { SetField(ref _selectedPlane, value); }
         }
         
-        public IList<DesignerCanvasVm> AktivPlanes
+        public IList<DesignerCanvas> AktivPlanes
         {
             get
             {
@@ -80,17 +83,19 @@ namespace ToolBoxControl.ViewModels
         // Hier muss leider die Ausnahme sein
         public ScrollViewer DesignerScroller { get; set; }
         public ItemsControl DesignerArea { get; set; }
+        public Designer DesignerControl { get; set; }
 
         #endregion
 
         #region Methods
 
-        private void AddNewLevel()
+        internal void AddPlane()
         {
-            DesignerCanvasVm desgnCanv = new DesignerCanvasVm();
+            DesignerCanvas desgnCanv = new DesignerCanvas();
+            desgnCanv.DesignerControl = DesignerControl;
 
             if(Planes.Count < 1)
-                desgnCanv.BackGround = Brushes.White;
+                desgnCanv.Background = Brushes.White;
 
             Planes.Add(desgnCanv);
             RefreshAktivPlaneStates();

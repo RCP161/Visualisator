@@ -174,6 +174,9 @@ namespace ToolBoxControl
             base.OnApplyTemplate();
             viewModel.DesignerScroller = GetTemplateChild("PART_DESIGNERSCROLLER") as ScrollViewer;
             viewModel.DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as ItemsControl;
+            viewModel.DesignerControl = this;
+
+            viewModel.AddPlane();
         }
     }
 }
