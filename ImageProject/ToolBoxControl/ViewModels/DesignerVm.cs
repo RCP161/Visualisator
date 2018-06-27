@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace ToolBoxControl.ViewModels
 {
@@ -13,14 +14,13 @@ namespace ToolBoxControl.ViewModels
     {
         internal DesignerVm()
         { 
-            Planes = new ObservableCollection<DesignerCanvas>();
+            Planes = new ObservableCollection<DesignerCanvasVm>();
         }
 
         #region private fields
 
         private Dialogs.ZoomDialog zoomDialog;
         private Dialogs.PlaneDialog planeDialog;
-        private ItemsControl designerArea;
 
         #endregion
 
@@ -40,28 +40,43 @@ namespace ToolBoxControl.ViewModels
             set { SetField(ref _isPlaneDialogActiv, value); }
         }
 
-        public IList<DesignerCanvas> _planes;
-        public IList<DesignerCanvas> Planes
+        public double _designerWidth;
+        public double DesignerWidth
+        {
+            get { return _designerWidth; }
+            set { SetField(ref _designerWidth, value); }
+        }
+        
+        public double _designerHeight;
+        public double DesignerHeight
+        {
+            get { return _designerHeight; }
+            set { SetField(ref _designerHeight, value); }
+        }
+
+        public IList<DesignerCanvasVm> _planes;
+        public IList<DesignerCanvasVm> Planes
         {
             get { return _planes; }
             set { SetField(ref _planes, value); }
         }
 
-        public DesignerCanvas _selectedPlane;
-        public DesignerCanvas SelectedPlane
+        public DesignerCanvasVm _selectedPlane;
+        public DesignerCanvasVm SelectedPlane
         {
             get { return _selectedPlane; }
             set { SetField(ref _selectedPlane, value); }
         }
         
-        public IList<DesignerCanvas> AktivPlanes
+        public IList<DesignerCanvasVm> AktivPlanes
         {
             get
             {
                 return Planes.Where(p => p.IsVisibleInDesigner).ToList();
             }
         }
-        
+
+        // Hier muss leider die Ausnahme sein
         public ScrollViewer DesignerScroller { get; set; }
 
         #endregion
@@ -70,31 +85,10 @@ namespace ToolBoxControl.ViewModels
 
         private void AddNewLevel()
         {
-            DesignerCanvas desgnCanv = new DesignerCanvas
-            {
-                DesignerControl = this
-            };
+            DesignerCanvasVm desgnCanv = new DesignerCanvasVm();
 
             if(Planes.Count < 1)
-                desgnCanv.Background = BackgroundColor;
-
-            Binding widthBnd = new Binding
-            {
-                Source = this,
-                Path = new PropertyPath("DesignerWidth"),
-                Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-            BindingOperations.SetBinding(desgnCanv, DesignerCanvas.WidthProperty, widthBnd);
-
-            Binding heighthBnd = new Binding
-            {
-                Source = this,
-                Path = new PropertyPath("DesignerHeight"),
-                Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-            BindingOperations.SetBinding(desgnCanv, DesignerCanvas.HeightProperty, heighthBnd);
+                desgnCanv.BackGround = Brushes.White;
 
             Planes.Add(desgnCanv);
             RefreshAktivPlaneStates();
@@ -108,15 +102,8 @@ namespace ToolBoxControl.ViewModels
                 return;
             }
 
-            Dialogs.ZoomDialog zd = new Dialogs.ZoomDialog
-            {
-                ScrollViewer = designerScroller,
-                DesignerArea = designerArea
-            };
-
-            zd.Show();
-
-            zoomDialog = zd;
+            zoomDialog = new Dialogs.ZoomDialog(this);
+            zoomDialog.Show();
         }
 
         private void ShowPlaneDialog()

@@ -11,6 +11,7 @@
                 <ControlTemplate TargetType="{x:Type asby:Designer}" >
                     <ScrollViewer Name="PART_DESIGNERSCROLLER" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                         <ItemsControl x:Name="PART_DESIGNERAREA" ItemsSource="{Binding AktivPlanes, UpdateSourceTrigger=PropertyChanged}"  Background="Purple"/>
+                        <!-- ISt jetzt DesignerCanvasVm und benötigt Template. Dabei die Width & height auf Templateparent binden -->
                     </ScrollViewer>
                     <ControlTemplate.Triggers>
                         <Trigger Property="DesignerCanResize" Value="False">
