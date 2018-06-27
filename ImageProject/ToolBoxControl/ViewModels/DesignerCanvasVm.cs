@@ -4,11 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using ToolBoxControl.Controls;
 
 namespace ToolBoxControl.ViewModels
 {
     internal class DesignerCanvasVm : BaseViewModel
     {
+        public DesignerCanvasVm()
+        {
+            DesignerCanvas dc = new DesignerCanvas();
+            dc
+        }
+
         public bool _isVisibleInDesigner;
         public bool IsVisibleInDesigner
         {

@@ -53,14 +53,14 @@ namespace ToolBoxControl.Dialogs
             if(zoomSlider == null)
                 throw new Exception("PART_ZoomSlider template is missing!");
 
-            DesignerArea.LayoutUpdated += new EventHandler(DesignerArea_LayoutUpdated);
+            viewModel.DesignerArea.LayoutUpdated += new EventHandler(DesignerArea_LayoutUpdated);
 
             zoomThumb.DragDelta += new DragDeltaEventHandler(Thumb_DragDelta);
 
             zoomSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>(ZoomSlider_ValueChanged);
 
             scaleTransform = new ScaleTransform();
-            DesignerArea.LayoutTransform = scaleTransform;
+            viewModel.DesignerArea.LayoutTransform = scaleTransform;
         }
 
         private void ZoomSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -96,12 +96,12 @@ namespace ToolBoxControl.Dialogs
             InvalidateScale(out double scale, out double xOffset, out double yOffset);
 
             if(viewModel.DesignerScroller.ComputedHorizontalScrollBarVisibility != Visibility.Visible)
-                viewWidth = DesignerArea.ActualWidth;
+                viewWidth = viewModel.DesignerArea.ActualWidth;
             else
                 viewWidth = viewModel.DesignerScroller.ViewportWidth;
 
             if(viewModel.DesignerScroller.ComputedVerticalScrollBarVisibility != Visibility.Visible)
-                viewHeight = DesignerArea.ActualHeight;
+                viewHeight = viewModel.DesignerArea.ActualHeight;
             else
                 viewHeight = viewModel.DesignerScroller.ViewportHeight;
 
@@ -119,8 +119,8 @@ namespace ToolBoxControl.Dialogs
         private void InvalidateScale(out double scale, out double xOffset, out double yOffset)
         {
             // DesignerArea size
-            double w = DesignerArea.ActualWidth * scaleTransform.ScaleX;
-            double h = DesignerArea.ActualHeight * scaleTransform.ScaleY;
+            double w = viewModel.DesignerArea.ActualWidth * scaleTransform.ScaleX;
+            double h = viewModel.DesignerArea.ActualHeight * scaleTransform.ScaleY;
 
             // zoom canvas size
             double x = zoomCanvas.ActualWidth;

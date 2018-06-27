@@ -15,6 +15,7 @@ namespace ToolBoxControl.ViewModels
         internal DesignerVm()
         { 
             Planes = new ObservableCollection<DesignerCanvasVm>();
+            AddNewLevel();
         }
 
         #region private fields
@@ -78,6 +79,7 @@ namespace ToolBoxControl.ViewModels
 
         // Hier muss leider die Ausnahme sein
         public ScrollViewer DesignerScroller { get; set; }
+        public ItemsControl DesignerArea { get; set; }
 
         #endregion
 
