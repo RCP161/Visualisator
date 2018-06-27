@@ -53,7 +53,10 @@
     <Compile Include="Dialogs\PlaneDialog.xaml.cs">
       <DependentUpon>PlaneDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Enums.cs" />
     <Compile Include="ToolBoxControl.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\DesignerVm.cs" />
     <Page Include="Dialogs\PlaneDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

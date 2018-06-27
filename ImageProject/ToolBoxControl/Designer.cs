@@ -18,7 +18,7 @@ using ToolBoxControl.Controls;
 
 namespace ToolBoxControl
 {
-    public class Designer : ContentControl, INotifyPropertyChanged
+    public class Designer : ContentControl
     {
         public static readonly int DesignerDefaultWidth = 800;
         public static readonly int DesignerDefaultHeight = 600;
@@ -29,16 +29,6 @@ namespace ToolBoxControl
         static Designer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Designer), new FrameworkPropertyMetadata(typeof(Designer)));
-        }
-
-        public Designer() : base()
-        {
-            DataContext = this;
-
-            Planes = new ObservableCollection<DesignerCanvas>();
-
-            Loaded += Designer_Loaded;
-            Unloaded += Designer_Unloaded;
         }
 
         // TODO Liste
@@ -169,182 +159,5 @@ namespace ToolBoxControl
         public static readonly DependencyProperty ItemEditModeProperty = DependencyProperty.Register("ItemEditMode", typeof(ItemEditMode), typeof(Designer), new FrameworkPropertyMetadata(ItemEditMode.All));
 
         #endregion
-
-        #region Properties
-
-        internal Dialogs.ZoomDialog ZoomDialog { get; set; }
-        internal Dialogs.PlaneDialog PlaneDialog { get; set; }
-        internal ItemsControl DesignerArea { get; set; }
-        internal ScrollViewer DesignerScroller { get; set; }
-
-
-        public IList<DesignerCanvas> _planes;
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public IList<DesignerCanvas> Planes
-        {
-            get { return _planes; }
-            set { SetField(ref _planes, value); }
-        }
-
-        public DesignerCanvas _selectedPlane; 
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public DesignerCanvas SelectedPlane
-        {
-            get { return _selectedPlane; }
-            set { SetField(ref _selectedPlane, value); }
-        }
-
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public IList<DesignerCanvas> AktivPlanes
-        {
-            get
-            {
-                return Planes.Where(p => p.IsVisibleInDesigner).ToList();
-            }
-        }
-
-        #endregion
-
-        #region Methods
-
-        private void AddNewLevel()
-        {
-            DesignerCanvas desgnCanv = new DesignerCanvas
-            {
-                DesignerControl = this
-            };
-
-            if(Planes.Count < 1)
-                desgnCanv.Background = BackgroundColor;
-
-            Binding widthBnd = new Binding
-            {
-                Source = this,
-                Path = new PropertyPath("DesignerWidth"),
-                Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-            BindingOperations.SetBinding(desgnCanv, DesignerCanvas.WidthProperty, widthBnd);
-
-            Binding heighthBnd = new Binding
-            {
-                Source = this,
-                Path = new PropertyPath("DesignerHeight"),
-                Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-            BindingOperations.SetBinding(desgnCanv, DesignerCanvas.HeightProperty, heighthBnd);
-
-            Planes.Add(desgnCanv);
-            RefreshAktivPlaneStates();
-        }
-
-        private void ShowZoomBoxDialog()
-        {
-            if(ZoomDialog != null)
-            {
-                ZoomDialog.Activate();
-                return;
-            }
-
-            Dialogs.ZoomDialog zd = new Dialogs.ZoomDialog
-            {
-                ScrollViewer = DesignerScroller,
-                DesignerArea = DesignerArea
-            };
-
-            zd.Show();
-
-            ZoomDialog = zd;
-        }
-
-        private void ShowPlaneDialog()
-        {
-            if(PlaneDialog != null)
-            {
-                PlaneDialog.Activate();
-                return;
-            }
-
-            Dialogs.PlaneDialog pd = new Dialogs.PlaneDialog
-            {
-                DataContext = this
-            };
-
-            pd.Show();
-
-            PlaneDialog = pd;
-        }
-
-        // TODO : Das muss vom Viewmodel dann getriggert werden
-        internal void RefreshAktivPlaneStates()
-        {
-            OnPropertyChanged("AktivPlanes");
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            DesignerScroller = GetTemplateChild("PART_DESIGNERSCROLLER") as ScrollViewer;
-            DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as ItemsControl;
-
-            AddNewLevel();
-        }
-
-        #endregion
-
-        #region Events
-
-        private void Designer_Loaded(object sender, RoutedEventArgs e)
-        {
-            if(System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
-                return;
-
-            if(IsZoomDialogActiv)
-                ShowZoomBoxDialog();
-
-            if(IsPlaneDialogActiv)
-                ShowPlaneDialog();
-        }
-
-        private void Designer_Unloaded(object sender, RoutedEventArgs e)
-        {
-            if(ZoomDialog != null)
-                ZoomDialog.Close();
-
-            if(PlaneDialog != null)
-                PlaneDialog.Close();
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if(EqualityComparer<T>.Default.Equals(field, value))
-                return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        #endregion
-
-    }
-
-    public enum ItemEditMode
-    {
-        All = 0,
-        ResizeOnly = 1,
-        RotateOnly = 2,
-        None = 3
     }
 }
