@@ -65,10 +65,10 @@ namespace ToolBoxControl.Controls
                         dixd = Math.Abs(i.Position.X - x);
                         diyd = Math.Abs(i.Position.Y - y);
 
-                        if ((!dix.HasValue || dix > dixd) && dixd <= Designer.ItemDockRange)
+                        if ((!dix.HasValue || dix > dixd) && dixd <= DefaultValues.ItemDockRange)
                             dix = i.Position.X - x;
 
-                        if((!diy.HasValue || diy > diyd) && diyd <= Designer.ItemDockRange)
+                        if((!diy.HasValue || diy > diyd) && diyd <= DefaultValues.ItemDockRange)
                             diy = i.Position.Y - y;
                     }
 
@@ -101,10 +101,10 @@ namespace ToolBoxControl.Controls
                         double xMax = designerItem.DesignerCanvas.SelectedItems.Max(i => i.Position.X) + designerItem.ActualWidth;
                         double yMax = designerItem.DesignerCanvas.SelectedItems.Max(i => i.Position.Y) + designerItem.ActualHeight;
 
-                        if (x > 0 && xMax + x > designerItem.DesignerCanvas.DesignerControl.DesignerWidth)
+                        if (x > 0 && xMax + x > designerItem.DesignerCanvas.DesignerControl.ActualHeight)
                             x = xMax;
 
-                        if (y > 0 && yMin - y > designerItem.DesignerCanvas.DesignerControl.DesignerWidth)
+                        if (y > 0 && yMin - y > designerItem.DesignerCanvas.DesignerControl.ActualWidth)
                             y = yMin;
                     }
                 }

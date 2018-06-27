@@ -21,12 +21,6 @@ namespace ToolBoxControl
 {
     public class Designer : ContentControl
     {
-        public static readonly int DesignerDefaultWidth = 800;
-        public static readonly int DesignerDefaultHeight = 600;
-        public static readonly int ItemDefaultWidth = 65;
-        public static readonly int ItemDefaultHeight = 65;
-        public static readonly int ItemDockRange = 8;
-
         private readonly DesignerVm viewModel;
 
         static Designer()
@@ -58,32 +52,6 @@ namespace ToolBoxControl
 
         #region WPF Properties
 
-        // TODO : Standard ändern auf false
-        /// <summary>
-        /// Gibt an, ob der ZoomDialog sichtbar ist
-        /// </summary>
-        public bool IsZoomDialogActiv
-        {
-            get { return (bool)GetValue(IsZoomDialogActivProperty); }
-            set { SetValue(IsZoomDialogActivProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsZoomDialogActivProperty = DependencyProperty.Register("IsZoomDialogActiv", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(true));
-
-
-        // TODO : Standard ändern auf false
-        /// <summary>
-        /// Gibt an, ob der EbenenDialog sichtbar ist
-        /// </summary>
-        public bool IsPlaneDialogActiv
-        {
-            get { return (bool)GetValue(IsPlaneDialogActivProperty); }
-            set { SetValue(IsPlaneDialogActivProperty, value); }
-        }
-
-
-        public static readonly DependencyProperty IsPlaneDialogActivProperty = DependencyProperty.Register("IsPlaneDialogActiv", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(true));
-
         /// <summary>
         /// Gibt an, ob sich der Designer selber vergrößern darf
         /// </summary>
@@ -94,42 +62,6 @@ namespace ToolBoxControl
         }
 
         public static readonly DependencyProperty DesignerCanResizeProperty = DependencyProperty.Register("DesignerCanResize", typeof(bool), typeof(Designer), new FrameworkPropertyMetadata(false));
-
-
-        /// <summary>
-        /// Breite des Designers, wenn IsResizable == false ist
-        /// </summary>
-        public int DesignerWidth
-        {
-            get { return (int)GetValue(DesignerWidthProperty); }
-            set { SetValue(DesignerWidthProperty, value); }
-        }
-
-        public static readonly DependencyProperty DesignerWidthProperty = DependencyProperty.Register("DesignerWidth", typeof(int), typeof(Designer), new FrameworkPropertyMetadata(DesignerDefaultWidth));
-
-
-        /// <summary>
-        /// Höhe des Designers, wenn IsResizable == false ist
-        /// </summary>
-        public int DesignerHeight
-        {
-            get { return (int)GetValue(DesignerHeightProperty); }
-            set { SetValue(DesignerHeightProperty, value); }
-        }
-
-        public static readonly DependencyProperty DesignerHeightProperty = DependencyProperty.Register("DesignerHeight", typeof(int), typeof(Designer), new FrameworkPropertyMetadata(DesignerDefaultHeight));
-
-
-        /// <summary>
-        /// Gibt die Hintergrindfarbe der ersten Ebene an
-        /// </summary>
-        public System.Windows.Media.Brush BackgroundColor
-        {
-            get { return (System.Windows.Media.Brush)GetValue(BackgroundColorProperty); }
-            set { SetValue(BackgroundColorProperty, value); }
-        }
-
-        public static readonly DependencyProperty BackgroundColorProperty = DependencyProperty.Register("BackgroundColor", typeof(System.Windows.Media.Brush), typeof(Designer), new FrameworkPropertyMetadata(System.Windows.Media.Brushes.White));
 
 
         /// <summary>
@@ -176,7 +108,7 @@ namespace ToolBoxControl
             viewModel.DesignerArea = GetTemplateChild("PART_DESIGNERAREA") as ItemsControl;
             viewModel.DesignerControl = this;
 
-            viewModel.AddPlane();
+            viewModel.AfterStartUp();
         }
     }
 }

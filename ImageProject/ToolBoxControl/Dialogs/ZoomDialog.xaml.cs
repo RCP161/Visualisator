@@ -30,6 +30,8 @@ namespace ToolBoxControl.Dialogs
             InitializeComponent();
             viewModel = vm;
             DataContext = vm;
+
+            Init();
         }
 
         private Thumb zoomThumb;
@@ -37,19 +39,17 @@ namespace ToolBoxControl.Dialogs
         private Slider zoomSlider;
         private ScaleTransform scaleTransform;
 
-        public override void OnApplyTemplate()
+        public void Init()
         {
-            base.OnApplyTemplate();
-
-            zoomThumb = Template.FindName("PART_ZoomThumb", this) as Thumb;
+            zoomThumb = PART_ZoomThumb;
             if(zoomThumb == null)
                 throw new Exception("PART_ZoomThumb template is missing!");
 
-            zoomCanvas = Template.FindName("PART_ZoomCanvas", this) as Canvas;
+            zoomCanvas = PART_ZoomCanvas;
             if(zoomCanvas == null)
                 throw new Exception("PART_ZoomCanvas template is missing!");
 
-            zoomSlider = Template.FindName("PART_ZoomSlider", this) as Slider;
+            zoomSlider = PART_ZoomSlider;
             if(zoomSlider == null)
                 throw new Exception("PART_ZoomSlider template is missing!");
 

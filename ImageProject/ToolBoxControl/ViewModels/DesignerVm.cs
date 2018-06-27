@@ -16,9 +16,6 @@ namespace ToolBoxControl.ViewModels
         internal DesignerVm()
         { 
             Planes = new ObservableCollection<DesignerCanvas>();
-
-            ShowPlaneDialog();
-            ShowZoomBoxDialog();
         }
 
         #region private fields
@@ -89,7 +86,14 @@ namespace ToolBoxControl.ViewModels
 
         #region Methods
 
-        internal void AddPlane()
+        internal void AfterStartUp()
+        {
+            AddPlane();
+            ShowPlaneDialog();
+            ShowZoomBoxDialog();
+        }
+
+        private  void AddPlane()
         {
             DesignerCanvas desgnCanv = new DesignerCanvas();
             desgnCanv.DesignerControl = DesignerControl;
@@ -131,7 +135,6 @@ namespace ToolBoxControl.ViewModels
             planeDialog = pd;
         }
 
-        // TODO : Das muss vom Viewmodel dann getriggert werden
         internal void RefreshAktivPlaneStates()
         {
             OnPropertyChanged("AktivPlanes");

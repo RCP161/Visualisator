@@ -53,6 +53,7 @@
       <DependentUpon>PlaneDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums.cs" />
+    <Compile Include="DefaultValues.cs" />
     <Compile Include="ToolBoxControl.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\DesignerVm.cs" />

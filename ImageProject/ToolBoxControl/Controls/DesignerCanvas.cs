@@ -118,8 +118,8 @@ namespace ToolBoxControl.Controls
                     }
                     else
                     {
-                        newItem.Width = Designer.ItemDefaultWidth;
-                        newItem.Height = Designer.ItemDefaultHeight;
+                        newItem.Width = DefaultValues.ItemDefaultWidth;
+                        newItem.Height = DefaultValues.ItemDefaultHeight;
                     }
 
                     DesignerCanvas.SetLeft(newItem, Math.Max(0, pos.X - newItem.Width / 2));

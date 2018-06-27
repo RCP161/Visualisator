@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="40" />
             </Grid.ColumnDefinitions>
-            <Slider Name="PART_ZoomSlider"
+            <Slider x:Name="PART_ZoomSlider"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Stretch"
                     Margin="0"
@@ -51,12 +51,12 @@
                 BorderThickness="1"
                 BorderBrush="DimGray">
             <Grid>
-                <Canvas Margin="5" Name="PART_ZoomCanvas">
+                <Canvas Margin="5" x:Name="PART_ZoomCanvas">
                     <Canvas.Background>
                         <VisualBrush Stretch="Uniform"
                                      Visual="{Binding DesignerScroller.Content}" />
                     </Canvas.Background>
-                    <Thumb Name="PART_ZoomThumb" Cursor="SizeAll">
+                    <Thumb x:Name="PART_ZoomThumb" Cursor="SizeAll">
                         <Thumb.Style>
                             <Style TargetType="Thumb">
                                 <Setter Property="Template">
