@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -49,6 +50,10 @@ namespace ToolBoxControl
         // Dialog zum hinzufügen/entfernen/verschieben von Ebenen
         // KontextMenü Item nach vorne / Hinten
         // Mehrsprachenfähigkeit
+
+        // ViewModels einführen, um Unsichtbar Attribute wieder los zu werden
+        // Drop auf der slektierten Ebene
+        // Ebenen Name
 
         // TODO : Prüfen ob ich den DataContext der Dialoge auf den Designer setzen kann und somit direkt daran binden
 
@@ -212,8 +217,23 @@ namespace ToolBoxControl
             if(Planes.Count < 1)
                 desgnCanv.Background = BackgroundColor;
 
-            // TODO : das muss durch das Binding passieren
-            // DesignerArea.Childs.Add(desgnCanv);
+            Binding widthBnd = new Binding
+            {
+                Source = this,
+                Path = new PropertyPath("DesignerWidth"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            BindingOperations.SetBinding(desgnCanv, DesignerCanvas.WidthProperty, widthBnd);
+
+            Binding heighthBnd = new Binding
+            {
+                Source = this,
+                Path = new PropertyPath("DesignerHeight"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            BindingOperations.SetBinding(desgnCanv, DesignerCanvas.HeightProperty, heighthBnd);
 
             Planes.Add(desgnCanv);
             RefreshAktivPlaneStates();
@@ -256,6 +276,7 @@ namespace ToolBoxControl
             PlaneDialog = pd;
         }
 
+        // TODO : Das muss vom Viewmodel dann getriggert werden
         internal void RefreshAktivPlaneStates()
         {
             OnPropertyChanged("AktivPlanes");

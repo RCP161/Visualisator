@@ -38,11 +38,7 @@ namespace ToolBoxControl.Controls
         public bool IsVisibleInDesigner
         {
             get { return (bool)GetValue(IsVisibleInDesignerProperty); }
-            set
-            {
-                SetValue(IsVisibleInDesignerProperty, value);
-                DesignerControl.RefreshAktivPlaneStates();
-            }
+            set { SetValue(IsVisibleInDesignerProperty, value); }
         }
 
         public static readonly DependencyProperty IsVisibleInDesignerProperty = DependencyProperty.Register("IsVisibleInDesigner", typeof(bool), typeof(DesignerCanvas), new FrameworkPropertyMetadata(true));
