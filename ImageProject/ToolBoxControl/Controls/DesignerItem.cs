@@ -10,8 +10,7 @@ using System.Windows.Input;
 
 namespace ToolBoxControl.Controls
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public class DesignerItem : ContentControl
+    internal class DesignerItem : ContentControl
     {
         static DesignerItem()
         {

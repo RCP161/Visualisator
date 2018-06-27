@@ -16,8 +16,7 @@ using ToolBoxControl.Controls;
 
 namespace ToolBoxControl.Controls
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public class DesignerCanvas : Canvas
+    internal class DesignerCanvas : Canvas
     {
         private Point? dragStartPoint = null;
 

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace ToolBoxControl.ViewModels
@@ -20,7 +21,6 @@ namespace ToolBoxControl.ViewModels
         private Dialogs.ZoomDialog zoomDialog;
         private Dialogs.PlaneDialog planeDialog;
         private ItemsControl designerArea;
-        private ScrollViewer designerScroller;
 
         #endregion
 
@@ -61,6 +61,8 @@ namespace ToolBoxControl.ViewModels
                 return Planes.Where(p => p.IsVisibleInDesigner).ToList();
             }
         }
+        
+        public ScrollViewer DesignerScroller { get; set; }
 
         #endregion
 
@@ -139,15 +141,6 @@ namespace ToolBoxControl.ViewModels
         internal void RefreshAktivPlaneStates()
         {
             OnPropertyChanged("AktivPlanes");
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            designerScroller = GetTemplateChild("PART_DESIGNERSCROLLER") as ScrollViewer;
-            designerArea = GetTemplateChild("PART_DESIGNERAREA") as ItemsControl;
-
-            AddNewLevel();
         }
 
         #endregion

@@ -11,6 +11,5 @@
         <ResourceDictionary Source="/ToolBoxControl;component/Styles/ResizeRotateControlStyle.xaml" />
         <ResourceDictionary Source="/ToolBoxControl;component/Styles/ToolBoxControlStyle.xaml" />
         <ResourceDictionary Source="/ToolBoxControl;component/Styles/ToolBoxItemStyle.xaml" />
-        <ResourceDictionary Source="/ToolBoxControl;component/Styles/ZoomBoxStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

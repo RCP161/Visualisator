@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="Controls\DesignerItem.cs" />
     <Compile Include="Controls\ResizeRotateControl.cs" />
-    <Compile Include="Controls\ZoomBox.cs" />
     <Compile Include="Dialogs\PlaneDialog.xaml.cs">
       <DependentUpon>PlaneDialog.xaml</DependentUpon>
     </Compile>
@@ -90,10 +89,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\ToolBoxItemStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\ZoomBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

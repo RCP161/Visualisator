@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Xml;
 using ToolBoxControl.Controls;
+using ToolBoxControl.ViewModels;
 
 namespace ToolBoxControl
 {
@@ -26,9 +27,17 @@ namespace ToolBoxControl
         public static readonly int ItemDefaultHeight = 65;
         public static readonly int ItemDockRange = 8;
 
+        private readonly DesignerVm viewModel;
+
         static Designer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Designer), new FrameworkPropertyMetadata(typeof(Designer)));
+        }
+
+        public Designer() : base()
+        {
+            viewModel = new DesignerVm();
+            DataContext = viewModel;
         }
 
         // TODO Liste
@@ -159,5 +168,14 @@ namespace ToolBoxControl
         public static readonly DependencyProperty ItemEditModeProperty = DependencyProperty.Register("ItemEditMode", typeof(ItemEditMode), typeof(Designer), new FrameworkPropertyMetadata(ItemEditMode.All));
 
         #endregion
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            viewModel.DesignerScroller = GetTemplateChild("PART_DESIGNERSCROLLER") as ScrollViewer;
+            designerArea = GetTemplateChild("PART_DESIGNERAREA") as ItemsControl;
+
+            AddNewLevel();
+        }
     }
 }
