@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ToolBoxControl.Controls;
+using ToolBoxControl.ViewModels;
 
 namespace ToolBoxControl.Dialogs
 {
@@ -21,9 +22,10 @@ namespace ToolBoxControl.Dialogs
     /// </summary>
     internal partial class PlaneDialog : Window
     {
-        public PlaneDialog()
+        public PlaneDialog(DesignerVm vm)
         {
             InitializeComponent();
+            DataContext = vm;
         }
     }
 }

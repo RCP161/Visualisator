@@ -32,6 +32,8 @@ namespace ToolBoxControl
         {
             viewModel = new DesignerVm();
             DataContext = viewModel;
+
+            Unloaded += Designer_Unloaded;
         }
 
         // TODO Liste
@@ -47,8 +49,6 @@ namespace ToolBoxControl
         // ViewModels einführen, um Unsichtbar Attribute wieder los zu werden
         // Drop auf der slektierten Ebene
         // Ebenen Name
-
-        // TODO : Prüfen ob ich den DataContext der Dialoge auf den Designer setzen kann und somit direkt daran binden
 
         #region WPF Properties
 
@@ -109,6 +109,11 @@ namespace ToolBoxControl
             viewModel.DesignerControl = this;
 
             viewModel.AfterStartUp();
+        }
+
+        private void Designer_Unloaded(object sender, RoutedEventArgs e)
+        {
+            viewModel.OnClose();
         }
     }
 }

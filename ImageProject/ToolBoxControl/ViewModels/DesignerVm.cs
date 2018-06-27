@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using ToolBoxControl.Controls;
 
@@ -16,6 +18,8 @@ namespace ToolBoxControl.ViewModels
         internal DesignerVm()
         { 
             Planes = new ObservableCollection<DesignerCanvas>();
+
+            RefreshActivPlaneCommand = new RelayCommand(p => true, p => RefreshAktivPlaneStates());
         }
 
         #region private fields
@@ -27,28 +31,14 @@ namespace ToolBoxControl.ViewModels
 
         #region Properties
 
-        public bool _isZoomDialogActiv;
-        public bool IsZoomDialogActiv
-        {
-            get { return _isZoomDialogActiv; }
-            set { SetField(ref _isZoomDialogActiv, value); }
-        }
-
-        public bool _isPlaneDialogActiv;
-        public bool IsPlaneDialogActiv
-        {
-            get { return _isPlaneDialogActiv; }
-            set { SetField(ref _isPlaneDialogActiv, value); }
-        }
-
-        public double _designerWidth;
+        public double _designerWidth = DefaultValues.DesignerDefaultWidth;
         public double DesignerWidth
         {
             get { return _designerWidth; }
             set { SetField(ref _designerWidth, value); }
         }
         
-        public double _designerHeight;
+        public double _designerHeight = DefaultValues.DesignerDefaultHeight;
         public double DesignerHeight
         {
             get { return _designerHeight; }
@@ -77,6 +67,8 @@ namespace ToolBoxControl.ViewModels
             }
         }
 
+        public ICommand RefreshActivPlaneCommand { get; set; }
+
         // Hier muss leider die Ausnahme sein
         public ScrollViewer DesignerScroller { get; set; }
         public ItemsControl DesignerArea { get; set; }
@@ -95,11 +87,31 @@ namespace ToolBoxControl.ViewModels
 
         private  void AddPlane()
         {
-            DesignerCanvas desgnCanv = new DesignerCanvas();
-            desgnCanv.DesignerControl = DesignerControl;
+            DesignerCanvas desgnCanv = new DesignerCanvas
+            {
+                DesignerControl = DesignerControl
+            };
 
             if(Planes.Count < 1)
                 desgnCanv.Background = Brushes.White;
+
+            Binding widthBnd = new Binding
+            {
+                Source = this,
+                Path = new PropertyPath(nameof(DesignerWidth)),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            BindingOperations.SetBinding(desgnCanv, DesignerCanvas.WidthProperty, widthBnd);
+
+            Binding heighthBnd = new Binding
+            {
+                Source = this,
+                Path = new PropertyPath(nameof(DesignerHeight)),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            BindingOperations.SetBinding(desgnCanv, DesignerCanvas.HeightProperty, heighthBnd);
 
             Planes.Add(desgnCanv);
             RefreshAktivPlaneStates();
@@ -125,17 +137,20 @@ namespace ToolBoxControl.ViewModels
                 return;
             }
 
-            Dialogs.PlaneDialog pd = new Dialogs.PlaneDialog
-            {
-                DataContext = this
-            };
-
-            pd.Show();
-
-            planeDialog = pd;
+            planeDialog = new Dialogs.PlaneDialog(this);
+            planeDialog.Show();
         }
 
-        internal void RefreshAktivPlaneStates()
+        internal void OnClose()
+        {
+            if(zoomDialog != null)
+                zoomDialog.Close();
+
+            if(planeDialog != null)
+                planeDialog.Close();
+        }
+
+        private void RefreshAktivPlaneStates()
         {
             OnPropertyChanged("AktivPlanes");
         }
