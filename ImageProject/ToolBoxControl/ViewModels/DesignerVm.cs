@@ -19,7 +19,7 @@ namespace ToolBoxControl.ViewModels
         { 
             Planes = new ObservableCollection<DesignerCanvas>();
 
-            RefreshActivPlaneCommand = new RelayCommand(p => true, p => RefreshAktivPlaneStates());
+            RefreshActivPlaneCommand = new RelayCommand(p => true, p => RefreshPlaneStates());
         }
 
         #region private fields
@@ -52,14 +52,24 @@ namespace ToolBoxControl.ViewModels
             set { SetField(ref _planes, value); }
         }
 
-        public DesignerCanvas _selectedPlane;
-        public DesignerCanvas SelectedPlane
+        public DesignerCanvas ActivPlane
         {
-            get { return _selectedPlane; }
-            set { SetField(ref _selectedPlane, value); }
+            get { return Planes.SingleOrDefault(x => x.IsHitTestVisible); }
+            set
+            {
+                if(value == ActivPlane)
+                    return;
+
+                IEnumerable<DesignerCanvas> list = Planes.Where(x => x.IsHitTestVisible).ToList();
+                foreach(DesignerCanvas dc in list)
+                    dc.IsHitTestVisible = false;
+
+                value.IsHitTestVisible = true;
+                OnPropertyChanged(nameof(ActivPlane));
+            }
         }
-        
-        public IList<DesignerCanvas> AktivPlanes
+
+        public IList<DesignerCanvas> VisiblePlanes
         {
             get
             {
@@ -90,7 +100,8 @@ namespace ToolBoxControl.ViewModels
         {
             DesignerCanvas desgnCanv = new DesignerCanvas
             {
-                DesignerControl = DesignerControl
+                DesignerControl = DesignerControl,
+                IsHitTestVisible = false
             };
 
             if(Planes.Count < 1)
@@ -99,7 +110,9 @@ namespace ToolBoxControl.ViewModels
                 desgnCanv.Background = Brushes.Transparent;
 
             Planes.Add(desgnCanv);
-            RefreshAktivPlaneStates();
+            ActivPlane = desgnCanv;
+
+            RefreshPlaneStates();
         }
 
         private void ShowZoomBoxDialog()
@@ -135,9 +148,9 @@ namespace ToolBoxControl.ViewModels
                 planeDialog.Close();
         }
 
-        internal void RefreshAktivPlaneStates()
+        internal void RefreshPlaneStates()
         {
-            OnPropertyChanged("AktivPlanes");
+            OnPropertyChanged(nameof(VisiblePlanes));
         }
 
         #endregion

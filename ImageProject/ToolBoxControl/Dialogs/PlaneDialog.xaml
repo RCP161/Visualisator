@@ -15,7 +15,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
-                        <Grid Background="#EEE">
+                        <Grid Name="PART_GRID" Background="#EEE">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="100" />
                             </Grid.RowDefinitions>
@@ -32,10 +32,15 @@
                                 </Canvas.Background>
                             </Canvas>
 
-                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Visibility}" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding IsHitTestVisible}" VerticalAlignment="Center"/>
                             <CheckBox Grid.Row="0" Grid.Column="2" IsChecked="{Binding Path=IsVisibleInDesigner}" VerticalAlignment="Center" />
 
                         </Grid>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsHitTestVisible}" Value="True">
+                                <Setter TargetName="PART_GRID" Property="Background" Value="LightBlue"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers> 
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -49,6 +54,6 @@
             <!--Down-->
         </ToolBar>
         <ListBox ItemsSource="{Binding Planes}"
-                 SelectedItem="{Binding SelectedPlane}" />
+                 SelectedItem="{Binding ActivPlane}" />
     </StackPanel>
 </Window>

@@ -111,9 +111,9 @@ namespace ToolBoxControl
             viewModel.AfterStartUp();
         }
 
-        internal void RefreshActivPlanes()
+        internal void RefreshPlaneStates()
         {
-            viewModel.RefreshAktivPlaneStates();
+            viewModel.RefreshPlaneStates();
         }
 
         private void Designer_Unloaded(object sender, RoutedEventArgs e)

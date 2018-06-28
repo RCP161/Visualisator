@@ -40,12 +40,13 @@ namespace ToolBoxControl.Controls
             set { SetValue(IsVisibleInDesignerProperty, value); }
         }
 
-        public static readonly DependencyProperty IsVisibleInDesignerProperty = DependencyProperty.Register("IsVisibleInDesigner", typeof(bool), typeof(DesignerCanvas), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.None, new PropertyChangedCallback(VisibilityChanged)));
+        public static readonly DependencyProperty IsVisibleInDesignerProperty = DependencyProperty.Register("IsVisibleInDesigner", typeof(bool), typeof(DesignerCanvas), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.None, new PropertyChangedCallback(DpChanged)));
 
-        private static void VisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+
+        private static void DpChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DesignerCanvas dc = (DesignerCanvas)d;
-            dc.DesignerControl.RefreshActivPlanes();
+            dc.DesignerControl.RefreshPlaneStates();
         }
 
         public IEnumerable<DesignerItem> SelectedItems
