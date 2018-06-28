@@ -81,6 +81,7 @@ namespace ToolBoxControl.ViewModels
         internal void AfterStartUp()
         {
             AddPlane();
+            AddPlane();
             ShowPlaneDialog();
             ShowZoomBoxDialog();
         }
@@ -150,7 +151,7 @@ namespace ToolBoxControl.ViewModels
                 planeDialog.Close();
         }
 
-        private void RefreshAktivPlaneStates()
+        internal void RefreshAktivPlaneStates()
         {
             OnPropertyChanged("AktivPlanes");
         }

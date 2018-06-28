@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:ToolBoxControl.Dialogs"
         xmlns:ctrl="clr-namespace:ToolBoxControl.Controls"
         mc:Ignorable="d" 
@@ -33,16 +33,8 @@
                             </Canvas>
 
                             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Visibility}" VerticalAlignment="Center"/>
-                            <CheckBox Grid.Row="0" Grid.Column="2" IsChecked="{Binding Path=IsVisibleInDesigner}" VerticalAlignment="Center">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger>
-                                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=RefreshActivPlaneCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </CheckBox>
-                            
-                            <!-- Hier gehts weiter -->
-                            
+                            <CheckBox Grid.Row="0" Grid.Column="2" IsChecked="{Binding Path=IsVisibleInDesigner}" VerticalAlignment="Center" />
+
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
