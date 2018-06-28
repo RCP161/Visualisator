@@ -10,7 +10,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type asby:Designer}" >
                     <ScrollViewer Name="PART_DESIGNERSCROLLER" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                        <ItemsControl x:Name="PART_DESIGNERAREA" ItemsSource="{Binding AktivPlanes, UpdateSourceTrigger=PropertyChanged}" />
+                        <ItemsControl x:Name="PART_DESIGNERAREA" ItemsSource="{Binding AktivPlanes, UpdateSourceTrigger=PropertyChanged}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Grid Background="Transparent" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
                     </ScrollViewer>
                     <ControlTemplate.Triggers>
                         <Trigger Property="DesignerCanResize" Value="False">

@@ -95,6 +95,8 @@ namespace ToolBoxControl.ViewModels
 
             if(Planes.Count < 1)
                 desgnCanv.Background = Brushes.White;
+            else
+                desgnCanv.Background = Brushes.Transparent;
 
             Binding widthBnd = new Binding
             {
