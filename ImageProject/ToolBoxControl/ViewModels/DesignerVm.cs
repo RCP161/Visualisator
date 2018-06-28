@@ -98,24 +98,6 @@ namespace ToolBoxControl.ViewModels
             else
                 desgnCanv.Background = Brushes.Transparent;
 
-            Binding widthBnd = new Binding
-            {
-                Source = this,
-                Path = new PropertyPath(nameof(DesignerWidth)),
-                Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-            BindingOperations.SetBinding(desgnCanv, DesignerCanvas.WidthProperty, widthBnd);
-
-            Binding heighthBnd = new Binding
-            {
-                Source = this,
-                Path = new PropertyPath(nameof(DesignerHeight)),
-                Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-            BindingOperations.SetBinding(desgnCanv, DesignerCanvas.HeightProperty, heighthBnd);
-
             Planes.Add(desgnCanv);
             RefreshAktivPlaneStates();
         }
