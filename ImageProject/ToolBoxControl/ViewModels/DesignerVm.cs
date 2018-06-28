@@ -62,7 +62,10 @@ namespace ToolBoxControl.ViewModels
 
                 IEnumerable<DesignerCanvas> list = Planes.Where(x => x.IsHitTestVisible).ToList();
                 foreach(DesignerCanvas dc in list)
+                {
+                    dc.DeselectAll();
                     dc.IsHitTestVisible = false;
+                }
 
                 value.IsHitTestVisible = true;
                 OnPropertyChanged(nameof(ActivPlane));
