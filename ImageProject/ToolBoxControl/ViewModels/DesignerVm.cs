@@ -32,6 +32,7 @@ namespace ToolBoxControl.ViewModels
         // Raster an DesignerCanvas über Docking
         // KontextMenü Item nach vorne / Hinten
         // Mehrsprachenfähigkeit
+        // Ebenen ToFront und ToBack?
 
 
         #region private fields
@@ -163,6 +164,8 @@ namespace ToolBoxControl.ViewModels
 
             Planes.RemoveAt(index);
             Planes.Insert(index - 1, ActivPlane);
+
+            RefreshPlaneStates();
         }
 
         private void PutActivPlaneUp()
@@ -177,6 +180,8 @@ namespace ToolBoxControl.ViewModels
 
             Planes.RemoveAt(index);
             Planes.Insert(index + 1, ActivPlane);
+
+            RefreshPlaneStates();
         }
 
 

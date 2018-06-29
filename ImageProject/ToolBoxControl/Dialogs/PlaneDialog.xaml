@@ -12,6 +12,14 @@
     <Window.Resources>
         <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
             <Setter Property="Background" Value="#EEE"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleY="-1">
+                    </ScaleTransform>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
@@ -91,6 +99,16 @@
                  DockPanel.Dock="Bottom"
                  VerticalAlignment="Stretch"
                  HorizontalAlignment="Stretch"
-                 Background="Transparent"/>
+                 Background="Transparent"
+                 RenderTransformOrigin="0.5,0.5">
+            <ListBox.RenderTransform>
+                <ScaleTransform ScaleY="-1" />
+            </ListBox.RenderTransform>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel VerticalAlignment="Bottom"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
     </DockPanel>
 </Window>
