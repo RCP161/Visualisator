@@ -19,8 +19,20 @@ namespace ToolBoxControl.ViewModels
         { 
             Planes = new ObservableCollection<DesignerCanvas>();
 
-            RefreshActivPlaneCommand = new RelayCommand(p => true, p => RefreshPlaneStates());
+            AddPlaneCommand = new RelayCommand(p => true, p => AddPlane());
+            DeletePlaneCommand = new RelayCommand(p => true, p => DeletePlane());
+            PlaneUpCommand = new RelayCommand(p => true, p => PutActivPlaneUp());
+            PlaneDownCommand = new RelayCommand(p => true, p => PutActivPlaneDown());
         }
+
+
+        // TODO Liste
+        // Interface für Spezial Docking (DockingPunkte)
+        // Docking Linien Adorner einblenden bei Dockverhalten
+        // Raster an DesignerCanvas über Docking
+        // KontextMenü Item nach vorne / Hinten
+        // Mehrsprachenfähigkeit
+
 
         #region private fields
 
@@ -67,7 +79,9 @@ namespace ToolBoxControl.ViewModels
                     dc.IsHitTestVisible = false;
                 }
 
-                value.IsHitTestVisible = true;
+                if(value != null)
+                    value.IsHitTestVisible = true;
+
                 OnPropertyChanged(nameof(ActivPlane));
             }
         }
@@ -80,7 +94,10 @@ namespace ToolBoxControl.ViewModels
             }
         }
 
-        public ICommand RefreshActivPlaneCommand { get; set; }
+        public ICommand AddPlaneCommand { get; set; }
+        public ICommand DeletePlaneCommand { get; set; }
+        public ICommand PlaneUpCommand { get; set; }
+        public ICommand PlaneDownCommand { get; set; }
 
         // Hier muss leider die Ausnahme sein
         public ScrollViewer DesignerScroller { get; set; }
@@ -94,7 +111,6 @@ namespace ToolBoxControl.ViewModels
         internal void AfterStartUp()
         {
             AddPlane();
-            AddPlane();
             ShowPlaneDialog();
             ShowZoomBoxDialog();
         }
@@ -104,7 +120,8 @@ namespace ToolBoxControl.ViewModels
             DesignerCanvas desgnCanv = new DesignerCanvas
             {
                 DesignerControl = DesignerControl,
-                IsHitTestVisible = false
+                IsHitTestVisible = false,
+                PlaneName = "Name"
             };
 
             if(Planes.Count < 1)
@@ -112,11 +129,56 @@ namespace ToolBoxControl.ViewModels
             else
                 desgnCanv.Background = Brushes.Transparent;
 
-            Planes.Add(desgnCanv);
+            if(ActivPlane == null)
+                Planes.Add(desgnCanv);
+            else
+                Planes.Insert(Planes.IndexOf(ActivPlane) + 1, desgnCanv);
+
             ActivPlane = desgnCanv;
 
             RefreshPlaneStates();
         }
+
+        private void DeletePlane()
+        {
+            if(ActivPlane == null)
+                return;
+
+            DesignerCanvas dc = ActivPlane;
+            ActivPlane = VisiblePlanes.Where(x => x != ActivPlane).LastOrDefault();
+            Planes.Remove(dc);
+
+            RefreshPlaneStates();
+        }
+
+        private void PutActivPlaneDown()
+        {
+            if(ActivPlane == null || Planes.Count < 2)
+                return;
+
+            int index = Planes.IndexOf(ActivPlane);
+
+            if(index < 1)
+                return;
+
+            Planes.RemoveAt(index);
+            Planes.Insert(index - 1, ActivPlane);
+        }
+
+        private void PutActivPlaneUp()
+        {
+            if(ActivPlane == null || Planes.Count < 2)
+                return;
+
+            int index = Planes.IndexOf(ActivPlane);
+
+            if(index >= Planes.IndexOf(Planes.Last()))
+                return;
+
+            Planes.RemoveAt(index);
+            Planes.Insert(index + 1, ActivPlane);
+        }
+
 
         private void ShowZoomBoxDialog()
         {

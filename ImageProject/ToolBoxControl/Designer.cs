@@ -36,20 +36,6 @@ namespace ToolBoxControl
             Unloaded += Designer_Unloaded;
         }
 
-        // TODO Liste
-        // Eigene Property für Imagebackground (Derzeit nur Background)
-        // Interface für Spezial Docking (DockingPunkte)
-        // Docking Linien Adorner einblenden bei Dockverhalten
-        // DesignerCollection für Ebenen
-        // Raster an DesignerCanvas über Docking
-        // Dialog zum hinzufügen/entfernen/verschieben von Ebenen
-        // KontextMenü Item nach vorne / Hinten
-        // Mehrsprachenfähigkeit
-
-        // ViewModels einführen, um Unsichtbar Attribute wieder los zu werden
-        // Drop auf der slektierten Ebene
-        // Ebenen Name
-
         #region WPF Properties
 
         /// <summary>

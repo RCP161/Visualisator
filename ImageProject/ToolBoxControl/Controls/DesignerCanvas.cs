@@ -34,6 +34,16 @@ namespace ToolBoxControl.Controls
         public static readonly DependencyProperty DesignerControlProperty = DependencyProperty.Register("DesignerControl", typeof(Designer), typeof(DesignerCanvas), new FrameworkPropertyMetadata(null));
 
 
+        public string PlaneName
+        {
+            get { return (string)GetValue(PlaneNameProperty); }
+            set { SetValue(PlaneNameProperty, value); }
+        }
+
+        public static readonly DependencyProperty PlaneNameProperty = DependencyProperty.Register("PlaneName", typeof(string), typeof(DesignerCanvas), new FrameworkPropertyMetadata(null));
+
+
+
         public bool IsVisibleInDesigner
         {
             get { return (bool)GetValue(IsVisibleInDesignerProperty); }
