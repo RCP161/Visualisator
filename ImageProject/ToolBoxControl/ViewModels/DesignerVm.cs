@@ -162,10 +162,7 @@ namespace ToolBoxControl.ViewModels
             if(index < 1)
                 return;
 
-            Planes.RemoveAt(index);
-            Planes.Insert(index - 1, ActivPlane);
-
-            RefreshPlaneStates();
+            ChangePlaneindex(index, -1);
         }
 
         private void PutActivPlaneUp()
@@ -178,8 +175,15 @@ namespace ToolBoxControl.ViewModels
             if(index >= Planes.IndexOf(Planes.Last()))
                 return;
 
+            ChangePlaneindex(index, 1);
+        }
+
+        private void ChangePlaneindex(int index, int diff)
+        {
+            DesignerCanvas dc = ActivPlane;
             Planes.RemoveAt(index);
-            Planes.Insert(index + 1, ActivPlane);
+            Planes.Insert(index + diff, dc);
+            ActivPlane = dc;
 
             RefreshPlaneStates();
         }
